@@ -533,8 +533,6 @@ export const gallery: Photo[] = [
   { src: "/images/bedroom-back-right.jpg", alt: "Bedroom", caption: "Bedroom", category: "bedroom" },
   { src: "/images/hallway.jpg", alt: "Bedroom hallway", caption: "Hallway", category: "bedroom" },
   { src: "/images/bathroom.jpg", alt: "Full bathroom with tub and vanity", caption: "Full bathroom", category: "bath" },
-  { src: "/images/bathroom-2.jpg", alt: "Full bathroom vanity and tub", caption: "Full bathroom", category: "bath" },
-  { src: "/images/bathroom-3.jpg", alt: "Full bathroom detail", caption: "Full bathroom", category: "bath" },
   { src: "/images/basement-bathroom.jpg", alt: "Half bathroom", caption: "Half bathroom", category: "bath" },
   { src: "/images/stairway.jpg", alt: "Stairway", caption: "Stairway", category: "lower" },
   { src: "/images/tile.jpg", alt: "Finished lower-level living space", caption: "Lower-level space", category: "lower" },
