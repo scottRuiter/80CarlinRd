@@ -100,54 +100,44 @@ export default function Home() {
             fetchPriority="high"
             className="ken-burns absolute inset-0 h-full w-full object-cover object-[center_38%]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/55 to-night/70" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(242,166,59,0.18),transparent_55%)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/40 to-night/25" />
 
-          <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24">
-            <p className="kicker">For rent · 80 Carlin Rd · Conklin, New York</p>
-            <h1 className="display max-w-5xl text-[clamp(2.75rem,8vw,6.5rem)]">
-              The house that stays on
-            </h1>
-            <p className="mt-4 max-w-xl text-lg text-muted">
-              Three bedrooms, a 26 kW Generac, and $2,500 USD a month.
-            </p>
-
-            <div className="mt-10 flex flex-wrap items-end gap-x-10 gap-y-6">
-              <div>
-                <p className="text-xs tracking-[0.2em] text-muted uppercase">Monthly rent</p>
-                <p className="display mt-1 text-5xl sm:text-6xl">
-                  $2,500 <span className="text-3xl text-muted sm:text-4xl">USD</span>
-                </p>
-                <EthQuote />
+          <div className="relative mx-auto grid w-full max-w-7xl items-end gap-8 px-5 pb-12 pt-28 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:pb-16">
+            <div>
+              <p className="kicker">For rent · 80 Carlin Rd · Conklin, New York</p>
+              <h1 className="display max-w-3xl text-[clamp(2.6rem,7vw,5.5rem)]">
+                The house that stays on
+              </h1>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href={ctas.showing} className="btn btn-amber">
+                  Request a showing
+                </a>
+                <a href={ctas.gallery} className="btn btn-outline">
+                  Take the photo tour
+                </a>
               </div>
-              <div className="flex flex-wrap gap-x-8 gap-y-4">
+            </div>
+
+            <div className="glass p-6 sm:p-7">
+              <p className="text-xs tracking-[0.2em] text-muted uppercase">Monthly rent</p>
+              <p className="display mt-2 text-5xl">
+                $2,500
+                <span className="ml-2 align-middle text-xl tracking-[0.14em] text-muted">USD</span>
+              </p>
+              <EthQuote />
+              <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-line pt-5">
                 {stats.map((stat) => (
                   <div key={stat.label}>
-                    <p className="display text-3xl text-fog">
+                    <p className="display text-2xl text-fog">
                       <CountUp value={stat.value} decimals={stat.decimals ?? 0} suffix={stat.suffix} />
                     </p>
-                    <p className="mt-1 text-xs tracking-[0.14em] text-muted uppercase">{stat.label}</p>
+                    <p className="mt-0.5 text-[0.65rem] tracking-[0.14em] text-muted uppercase">
+                      {stat.label}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
-
-            <p className="mt-6 max-w-xl text-sm text-muted sm:text-base">
-              Attached 1-stall garage · Nest zone comfort · PIN side-door entry · Wi-Fi 6 + Ethernet
-            </p>
-
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <a href={ctas.showing} className="btn btn-amber">
-                Request a showing
-              </a>
-              <a href={ctas.gallery} className="btn btn-outline">
-                Take the photo tour
-              </a>
-            </div>
-          </div>
-
-          <div className="scroll-hint absolute bottom-6 left-1/2 hidden -translate-x-1/2 lg:block" aria-hidden="true">
-            <span />
           </div>
         </section>
 

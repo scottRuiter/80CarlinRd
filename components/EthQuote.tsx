@@ -147,13 +147,28 @@ export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
   }
 
   return (
-    <p className="mt-2 text-sm sm:text-base">
-      <PriceLink href={PRICE_PAGES.eth}>{eth} ETH</PriceLink>
-      <span className="text-muted"> · </span>
-      <PriceLink href={PRICE_PAGES.btc}>{btc} BTC</PriceLink>
-      <span className="ml-2 text-muted">
-        {off}% off · live · {stamp}
-      </span>
-    </p>
+    <div className="mt-4">
+      <div className="flex flex-wrap gap-2">
+        <a
+          href={PRICE_PAGES.eth}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-amber/40 bg-amber/10 px-3 py-1.5 text-sm font-semibold text-amber transition hover:border-amber hover:bg-amber/20"
+        >
+          {eth} ETH <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href={PRICE_PAGES.btc}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-amber/40 bg-amber/10 px-3 py-1.5 text-sm font-semibold text-amber transition hover:border-amber hover:bg-amber/20"
+        >
+          {btc} BTC <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <p className="mt-2 text-xs text-muted">
+        {off}% off in crypto · live · {stamp}
+      </p>
+    </div>
   );
 }
