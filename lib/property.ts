@@ -277,7 +277,8 @@ export type AreaCategory =
   | "entertainment"
   | "culture"
   | "shopping"
-  | "university";
+  | "university"
+  | "schools";
 
 export const areaCategories: { id: "all" | AreaCategory; label: string; icon: string }[] = [
   { id: "all", label: "All", icon: "◆" },
@@ -287,6 +288,7 @@ export const areaCategories: { id: "all" | AreaCategory; label: string; icon: st
   { id: "culture", label: "Culture", icon: "🏛" },
   { id: "shopping", label: "Shopping", icon: "🛍" },
   { id: "university", label: "University", icon: "🎓" },
+  { id: "schools", label: "Schools", icon: "🏫" },
 ];
 
 export const areaPlaces: {
@@ -405,6 +407,41 @@ export const areaPlaces: {
       "Main campus at 4400 Vestal Parkway East. NCAA Division I athletics, Anderson Center performances, lectures, cultural events, and a strong base of technology, research, healthcare, and professional employment.",
     query: "4400 Vestal Parkway East, Vestal, NY",
   },
+  {
+    name: "Susquehanna Valley Central School District",
+    category: "schools",
+    blurb:
+      "80 Carlin Rd is in the Susquehanna Valley Central School District — the Sabers. The district covers Conklin and nearby towns, with elementary, middle, and high school in the local community.",
+    query: "Susquehanna Valley Central School District, Conklin, NY",
+  },
+  {
+    name: "Francis P. Donnelly Elementary School",
+    category: "schools",
+    blurb:
+      "The Conklin elementary school (Pre-K–5) at 1168 Conklin Rd — the district's neighborhood elementary on this side of the valley.",
+    query: "Francis P. Donnelly School, 1168 Conklin Rd, Conklin, NY",
+  },
+  {
+    name: "Richard T. Stank Middle School",
+    category: "schools",
+    blurb:
+      "Grades 6–8 at 1040 Conklin Rd in Conklin, on the same campus as the high school.",
+    query: "Richard T. Stank Middle School, 1040 Conklin Rd, Conklin, NY",
+  },
+  {
+    name: "Susquehanna Valley Senior High School",
+    category: "schools",
+    blurb:
+      "Grades 9–12 at 1040 Conklin Rd in Conklin. The district high school for Sabers athletics, arts, and academics.",
+    query: "Susquehanna Valley Senior High School, 1040 Conklin Rd, Conklin, NY",
+  },
+  {
+    name: "Brookside Elementary School",
+    category: "schools",
+    blurb:
+      "The district's other elementary (Pre-K–5), at 3849 Saddlemire Rd in the Town of Binghamton.",
+    query: "Brookside Elementary School, 3849 Saddlemire Rd, Binghamton, NY",
+  },
 ];
 
 export const outdoorLiving = [
@@ -514,7 +551,7 @@ export const faqs = [
   },
   {
     q: "What school district is this?",
-    a: "Susquehanna Valley Central School District, in Conklin, Broome County.",
+    a: "Susquehanna Valley Central School District (the Sabers). District schools include Francis P. Donnelly Elementary in Conklin, Brookside Elementary, Richard T. Stank Middle School, and Susquehanna Valley Senior High School — both the middle and high school are on Conklin Rd.",
   },
   {
     q: "What is nearby?",
