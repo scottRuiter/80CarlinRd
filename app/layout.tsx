@@ -34,6 +34,8 @@ export const metadata: Metadata = {
       {
         url: property.ogImage,
         alt: `Front of ${fullAddress}`,
+        width: 1200,
+        height: 630,
       },
     ],
   },

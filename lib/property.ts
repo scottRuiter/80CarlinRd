@@ -60,9 +60,9 @@ export const property = {
   pageTitle: "80 Carlin Rd Conklin NY | 3 Bedroom Home for Rent",
   metaDescription:
     "Explore 80 Carlin Rd in Conklin, NY — a 3-bedroom, 1.5-bath home with 1,808 sq. ft., an attached 1-stall garage, Nest thermostats and zone sensors, Wi-Fi 6, wired Ethernet, PIN side-door entry, and a 26 kW Generac standby generator.",
-  socialTitle: "80 Carlin Rd | Conklin, NY",
+  socialTitle: "80 Carlin Rd | $2,500 USD/month | Conklin, NY",
   socialDescription:
-    "3-bedroom Conklin rental with an attached 1-stall garage, Nest zone comfort, Wi-Fi 6 and wired Ethernet, electronic PIN side-door entry, and a 26 kW Generac whole-home standby generator.",
+    "3-bedroom, 1.5-bath Conklin rental — 1,808 sq. ft., attached garage, and a 26 kW Generac that keeps the house on. $2,500 USD/month.",
   headline: "80 Carlin Rd — Comfortable 3-Bedroom Home with Whole-Home Backup Power",
   heroSubheadline:
     "3 Bedrooms • 1.5 Bathrooms • 1,808 Sq. Ft. • Susquehanna Valley Central School District",
