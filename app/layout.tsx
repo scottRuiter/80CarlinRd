@@ -15,20 +15,17 @@ const fraunces = Fraunces({
   subsets: ["latin"],
 });
 
-const title = `${property.addressLine}, ${property.city}, ${property.state} ${property.zip} | For Rent`;
-const description = `3-bedroom rental at ${fullAddress}. ${property.schoolDistrict}. 26 kW Generac standby generator, updated electrical, sunroom, and yard.`;
-
 export const metadata: Metadata = {
   metadataBase: new URL(property.siteUrl),
-  title,
-  description,
+  title: property.pageTitle,
+  description: property.metaDescription,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
-    title,
-    description,
+    title: property.socialTitle,
+    description: property.socialDescription,
     url: "/",
     siteName: property.addressLine,
     locale: "en_US",
@@ -41,8 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title,
-    description,
+    title: property.socialTitle,
+    description: property.socialDescription,
     images: [property.heroImage],
   },
   icons: {
@@ -52,8 +49,8 @@ export const metadata: Metadata = {
 
 const listingJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Residence",
-  name: property.addressLine,
+  "@type": "SingleFamilyResidence",
+  name: property.headline,
   url: property.siteUrl,
   image: `${property.siteUrl}${property.heroImage}`,
   address: {
@@ -64,7 +61,13 @@ const listingJsonLd = {
     postalCode: property.zip,
     addressCountry: "US",
   },
-  numberOfRooms: property.bedrooms,
+  numberOfBedrooms: property.bedrooms,
+  numberOfBathroomsTotal: 1.5,
+  floorSize: {
+    "@type": "QuantitativeValue",
+    value: property.livingAreaSqFt,
+    unitCode: "FTK",
+  },
   amenityFeature: [
     { "@type": "LocationFeatureSpecification", name: "26 kW Generac standby generator" },
     { "@type": "LocationFeatureSpecification", name: "Automatic transfer switch" },
@@ -73,6 +76,14 @@ const listingJsonLd = {
     { "@type": "LocationFeatureSpecification", name: "Natural gas" },
     { "@type": "LocationFeatureSpecification", name: "Yard" },
   ],
+  offers: {
+    "@type": "Offer",
+    price: property.rentAmount,
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+    category: "Lease",
+    url: property.siteUrl,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

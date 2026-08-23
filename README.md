@@ -4,19 +4,21 @@ Mobile-first rental site for **80 Carlin Rd, Conklin, NY 13748**.
 
 Live URL: https://scottruiter.github.io/80CarlinRd/
 
+Asking rent is **$2,500/month**. Do not publish a Zillow Rent Zestimate.
+
 ## Update listing details
 
-Edit `lib/property.ts`, then push to `main`.
+Confirmed copy and facts live in `lib/property.ts`. Empty fields in `pending` stay off the public page.
 
 ```ts
-rent: "$2,500 / month",
-availableDate: "September 1, 2026",
-zillowUrl: "https://www.zillow.com/...",
 applicationUrl: "https://...",
-showingHref: "https://calendly.com/...", // or a Google Form
+showingHref: "https://calendly.com/...",
+infoHref: "https://forms.gle/...",
+zillowUrl: "https://www.zillow.com/homedetails/...",
+pending.availableDate: "September 1, 2026",
 ```
 
-Leave `contactEmail` empty unless you want a dedicated rental inbox in the built JavaScript. A personal phone number should not go in this file.
+Leave `contactEmail` and `contactPhone` empty unless you want a dedicated rental inbox in the built JavaScript.
 
 ## Local development
 
@@ -25,12 +27,8 @@ npm install
 npm run dev
 ```
 
-The GitHub Pages path is `/80CarlinRd`, so local `/` and the live site both resolve through Next.js `basePath`.
+Open http://localhost:3000/80CarlinRd/
 
 ## Deploy
 
-Pushes to `main` run `.github/workflows/deploy.yml`:
-
-1. `npm ci`
-2. `npm run build` (static export to `/out`)
-3. GitHub Pages publish
+Pushes to `main` run `.github/workflows/deploy.yml`.
