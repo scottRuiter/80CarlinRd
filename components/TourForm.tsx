@@ -56,7 +56,12 @@ export function TourForm() {
         }),
       });
 
-      if (!response.ok) throw new Error("Request failed");
+      // FormSubmit answers 200 even when it rejects the submission (for example
+      // when the inbox has never been activated), so the body decides, not the status.
+      const result = await response.json().catch(() => null);
+      const delivered = String(result?.success) === "true";
+      if (!response.ok || !delivered) throw new Error("Request failed");
+
       setStatus("sent");
       setValues(blank);
     } catch {
