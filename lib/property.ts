@@ -28,8 +28,9 @@ export const property = {
   county: "Broome County",
   listingType: "For Rent",
   propertyType: "Single-family home",
-  rent: "$2,500 / month",
+  rent: "$2,500 USD / month",
   rentAmount: 2500,
+  cryptoDiscount: 0.1,
   bedrooms: 3,
   bathroomsLabel: "1.5 Baths",
   bathroomsDetail: "1 full + 1 half",
@@ -239,7 +240,8 @@ export const sunroomUses = [
 ];
 
 export const leaseTerms = [
-  "$2,500/month",
+  "$2,500 USD/month",
+  "ETH or BTC accepted at 10% off the USD rent, using the live quote at payment",
   "12-month lease preferred",
   "Tenant is responsible for applicable utilities, including electricity, natural gas, water/sewer, internet, cable, and other individually contracted services",
   "No smoking or vaping inside the home",
@@ -756,7 +758,7 @@ export const featuredPhotos = [
 export const faqs = [
   {
     q: "What is the monthly rent?",
-    a: "The asking rent is $2,500 per month.",
+    a: "The asking rent is $2,500 USD per month. Paid in ETH or BTC, the rent is 10% off at the live quote when payment is sent.",
   },
   {
     q: "How large is the home?",

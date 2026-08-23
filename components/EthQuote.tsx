@@ -119,8 +119,10 @@ export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
     return <p className="mt-2 text-sm text-muted">Fetching live ETH and BTC quotes…</p>;
   }
 
-  const eth = formatCoin(property.rentAmount, quote.ethUsd);
-  const btc = formatCoin(property.rentAmount, quote.btcUsd);
+  const cryptoUsd = property.rentAmount * (1 - property.cryptoDiscount);
+  const eth = formatCoin(cryptoUsd, quote.ethUsd);
+  const btc = formatCoin(cryptoUsd, quote.btcUsd);
+  const off = Math.round(property.cryptoDiscount * 100);
   const stamp = new Date(quote.fetchedAt).toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
@@ -136,8 +138,9 @@ export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
           <PriceLink href={PRICE_PAGES.btc}>{btc} BTC</PriceLink>
         </p>
         <p className="mt-1 text-sm text-muted">
-          Live · ETH {formatUsd(quote.ethUsd)} · BTC {formatUsd(quote.btcUsd)} · {stamp}.
-          Asking rent is still $2,500 USD.
+          {off}% off in ETH or BTC · {formatUsd(cryptoUsd)} · ETH{" "}
+          {formatUsd(quote.ethUsd)} · BTC {formatUsd(quote.btcUsd)} · {stamp}.
+          Asking rent is $2,500 USD.
         </p>
       </div>
     );
@@ -148,7 +151,9 @@ export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
       <PriceLink href={PRICE_PAGES.eth}>{eth} ETH</PriceLink>
       <span className="text-muted"> · </span>
       <PriceLink href={PRICE_PAGES.btc}>{btc} BTC</PriceLink>
-      <span className="ml-2 text-muted">live · {stamp}</span>
+      <span className="ml-2 text-muted">
+        {off}% off · live · {stamp}
+      </span>
     </p>
   );
 }
