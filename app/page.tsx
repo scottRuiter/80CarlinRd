@@ -1,5 +1,6 @@
 import { BlackoutDemo } from "@/components/BlackoutDemo";
 import { CountUp } from "@/components/CountUp";
+import { EthQuote } from "@/components/EthQuote";
 import { ExploreArea } from "@/components/ExploreArea";
 import { Faq } from "@/components/Faq";
 import { Gallery } from "@/components/Gallery";
@@ -115,6 +116,7 @@ export default function Home() {
               <div>
                 <p className="text-xs tracking-[0.2em] text-muted uppercase">Monthly rent</p>
                 <p className="display mt-1 text-5xl sm:text-6xl">$2,500</p>
+                <EthQuote />
               </div>
               <div className="flex flex-wrap gap-x-8 gap-y-4">
                 {stats.map((stat) => (
@@ -382,6 +384,7 @@ export default function Home() {
             <Reveal>
               <p className="kicker">Lease terms</p>
               <h2 className="display text-4xl sm:text-6xl">$2,500 a month.</h2>
+              <EthQuote variant="lease" />
               <p className="mt-5 max-w-md text-muted">
                 12-month lease preferred. No surprises buried in the fine print —
                 here is the whole list.
