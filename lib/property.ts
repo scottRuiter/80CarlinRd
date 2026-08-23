@@ -6,7 +6,8 @@ export type PhotoCategory =
   | "bath"
   | "lower"
   | "power"
-  | "yard";
+  | "yard"
+  | "sunroom";
 
 export type Photo = {
   src: string;
@@ -443,6 +444,7 @@ export const galleryFilters: { id: "all" | PhotoCategory; label: string }[] = [
   { id: "exterior", label: "Exterior" },
   { id: "living", label: "Living" },
   { id: "kitchen", label: "Kitchen" },
+  { id: "sunroom", label: "Sunroom" },
   { id: "bedroom", label: "Bedrooms" },
   { id: "bath", label: "Baths" },
   { id: "lower", label: "Lower level" },
@@ -453,8 +455,8 @@ export const galleryFilters: { id: "all" | PhotoCategory; label: string }[] = [
 export const featuredPhotos = [
   "/images/front.jpg",
   "/images/kitchen.jpg",
+  "/images/sunroom.jpg",
   "/images/living-room.jpg",
-  "/images/backyard.jpg",
   "/images/generac.jpg",
 ];
 
@@ -513,6 +515,9 @@ export const gallery: Photo[] = [
   { src: "/images/kitchen.jpg", alt: "Updated kitchen with island", caption: "Kitchen", category: "kitchen" },
   { src: "/images/kitchen-island.jpg", alt: "Kitchen island and stainless appliances", caption: "Kitchen", category: "kitchen" },
   { src: "/images/kitchen-from-side.jpg", alt: "Kitchen looking toward dining and living areas", caption: "Dining area", category: "kitchen" },
+  { src: "/images/sunroom.jpg", alt: "Updated sunroom with new flooring and wraparound windows", caption: "Sunroom", category: "sunroom" },
+  { src: "/images/sunroom-2.jpg", alt: "Sunroom windows looking onto the backyard", caption: "Sunroom", category: "sunroom" },
+  { src: "/images/sunroom-3.jpg", alt: "Sunroom corner with new Jeld-Wen windows and wood paneling", caption: "Sunroom", category: "sunroom" },
   { src: "/images/bedroom-middle.jpg", alt: "Bedroom", caption: "Bedroom", category: "bedroom" },
   { src: "/images/bedroom-back-left.jpg", alt: "Bedroom", caption: "Bedroom", category: "bedroom" },
   { src: "/images/bedroom-back-right.jpg", alt: "Bedroom", caption: "Bedroom", category: "bedroom" },

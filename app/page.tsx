@@ -55,6 +55,7 @@ const pillars = [
 const spaces = [
   { img: "/images/kitchen.jpg", title: "Kitchen", body: "Island, stainless appliances, tile backsplash, and real counter space." },
   { img: "/images/living-room.jpg", title: "Living room", body: "Open to the kitchen, with light from the front of the house." },
+  { img: "/images/sunroom.jpg", title: "Sunroom", body: "New flooring, wraparound windows, and a bright extra room that looks onto the yard." },
   { img: "/images/tile.jpg", title: "Lower level", body: "Finished flexible space with a bar counter — den, office, or playroom." },
   { img: "/images/backyard.jpg", title: "Yard", body: "Deep lawn, mature trees, and a storage shed on about 0.39 acres." },
 ];
@@ -323,20 +324,48 @@ export default function Home() {
             </div>
 
             <Reveal className="mt-12" delay={80}>
-              <div className="glass p-7 sm:p-10">
-                <p className="kicker">Updated sunroom</p>
-                <h3 className="display max-w-xl text-3xl sm:text-4xl">
-                  New flooring, refreshed finishes, and no assigned purpose.
-                </h3>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {sunroomUses.map((use) => (
-                    <span
-                      key={use}
-                      className="rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:border-amber hover:text-amber"
-                    >
-                      {use}
-                    </span>
-                  ))}
+              <div id="sunroom" className="glass overflow-hidden">
+                <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                  <div className="grid grid-cols-2 gap-2 p-3">
+                    <img
+                      src={asset("/images/sunroom.jpg")}
+                      alt="Updated sunroom with wraparound windows"
+                      className="col-span-2 h-64 w-full rounded-2xl object-cover sm:h-80"
+                      loading="lazy"
+                    />
+                    <img
+                      src={asset("/images/sunroom-2.jpg")}
+                      alt="Sunroom windows looking onto the backyard"
+                      className="h-36 w-full rounded-2xl object-cover sm:h-44"
+                      loading="lazy"
+                    />
+                    <img
+                      src={asset("/images/sunroom-3.jpg")}
+                      alt="Sunroom corner with new windows and wood paneling"
+                      className="h-36 w-full rounded-2xl object-cover sm:h-44"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-7 sm:p-10">
+                    <p className="kicker">Updated sunroom</p>
+                    <h3 className="display max-w-xl text-3xl sm:text-4xl">
+                      New flooring, wraparound windows, and no assigned purpose.
+                    </h3>
+                    <p className="mt-4 text-sm text-muted">
+                      Bright extra living space looking onto the yard — sitting room,
+                      office, hobby space, or morning coffee.
+                    </p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {sunroomUses.map((use) => (
+                        <span
+                          key={use}
+                          className="rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:border-amber hover:text-amber"
+                        >
+                          {use}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </Reveal>
