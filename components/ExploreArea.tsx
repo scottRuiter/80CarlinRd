@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { AreaMap, directionsLink, placeMiles } from "@/components/AreaMap";
 import { Reveal } from "@/components/Reveal";
 import {
   areaCategories,
@@ -11,17 +12,9 @@ import {
   type AreaCategory,
 } from "@/lib/property";
 
-function embedUrl(query: string) {
-  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=14&output=embed`;
-}
-
-function mapsLink(query: string) {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-}
-
 export function ExploreArea() {
   const [filter, setFilter] = useState<"all" | AreaCategory>("all");
-  const [selected, setSelected] = useState(fullAddress);
+  const [selected, setSelected] = useState("");
   const rail = useRef<HTMLDivElement>(null);
   const mapPanel = useRef<HTMLDivElement>(null);
 
@@ -29,13 +22,14 @@ export function ExploreArea() {
     () => (filter === "all" ? areaPlaces : areaPlaces.filter((place) => place.category === filter)),
     [filter],
   );
+  const activePlace = places.find((place) => place.name === selected);
 
   function scrollRail(direction: 1 | -1) {
     rail.current?.scrollBy({ left: direction * 340, behavior: "smooth" });
   }
 
-  function choose(query: string) {
-    setSelected(query);
+  function choose(name: string) {
+    setSelected(name);
     // On phones the map sits below the rail, so bring it into view on selection.
     if (window.innerWidth < 1024) {
       mapPanel.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -54,7 +48,7 @@ export function ExploreArea() {
             <p className="max-w-md text-muted">
               A residential Conklin address with downtown Binghamton, Vestal Parkway
               shopping, Binghamton University, and the parks in easy reach. Pick a
-              place to move the map.
+              place to see it against 80 Carlin Rd.
             </p>
           </div>
         </Reveal>
@@ -68,7 +62,7 @@ export function ExploreArea() {
                   type="button"
                   onClick={() => {
                     setFilter(item.id);
-                    if (item.id === "all") setSelected(fullAddress);
+                    if (item.id === "all") setSelected("");
                     rail.current?.scrollTo({ left: 0, behavior: "smooth" });
                   }}
                   className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
@@ -105,12 +99,12 @@ export function ExploreArea() {
 
         <div ref={rail} className="rail mt-6">
           {places.map((place) => {
-            const active = selected === place.query;
+            const active = selected === place.name;
             return (
               <button
                 key={place.name}
                 type="button"
-                onClick={() => choose(place.query)}
+                onClick={() => choose(place.name)}
                 className={`glass w-[16rem] p-5 text-left transition duration-300 hover:-translate-y-0.5 hover:border-amber/40 sm:w-[19rem] ${
                   active ? "border-amber/70" : ""
                 }`}
@@ -119,6 +113,11 @@ export function ExploreArea() {
                   {areaCategories.find((item) => item.id === place.category)?.label}
                 </p>
                 <h3 className="display mt-2 text-2xl">{place.name}</h3>
+                <p className="mt-1 text-xs text-amber">
+                  {placeMiles(place) < 10
+                    ? `${placeMiles(place).toFixed(1)} miles from the house`
+                    : `${Math.round(placeMiles(place))} miles from the house`}
+                </p>
                 <p className="mt-2 text-sm leading-6 text-muted">{place.blurb}</p>
               </button>
             );
@@ -129,39 +128,52 @@ export function ExploreArea() {
 
         <div ref={mapPanel} className="mt-8 scroll-mt-24">
           <div className="overflow-hidden rounded-3xl border border-line">
-            <iframe
-              key={selected}
-              title={`Map of ${selected}`}
-              src={embedUrl(selected)}
-              className="h-[340px] w-full border-0 grayscale-[0.35] contrast-[1.08] sm:h-[460px]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            <AreaMap places={places} selected={selected} onSelect={choose} />
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
             <p className="text-muted">
-              {selected === fullAddress ? `Home base: ${fullAddress}` : selected}
+              {activePlace ? (
+                <>
+                  <span className="text-amber">80 Carlin Rd</span>
+                  {" → "}
+                  {activePlace.name}
+                  {` · ${
+                    placeMiles(activePlace) < 10
+                      ? `${placeMiles(activePlace).toFixed(1)} miles`
+                      : `${Math.round(placeMiles(activePlace))} miles`
+                  }`}
+                </>
+              ) : (
+                <>
+                  Amber pin is 80 Carlin Rd. White pins are{" "}
+                  {filter === "all" ? "places around Greater Binghamton" : `${filter} nearby`}.
+                </>
+              )}
             </p>
             <div className="flex items-center gap-4">
-              {selected === fullAddress ? null : (
+              {selected ? (
                 <button
                   type="button"
                   onClick={() => {
                     setFilter("all");
-                    setSelected(fullAddress);
+                    setSelected("");
                   }}
                   className="text-muted transition hover:text-fog"
                 >
                   Reset to 80 Carlin Rd
                 </button>
-              )}
+              ) : null}
               <a
-                href={mapsLink(selected)}
+                href={
+                  activePlace
+                    ? directionsLink(activePlace.query)
+                    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-amber hover:underline"
               >
-                Open in Google Maps ↗
+                {activePlace ? "Directions in Google Maps ↗" : "Open in Google Maps ↗"}
               </a>
             </div>
           </div>

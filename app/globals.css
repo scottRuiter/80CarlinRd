@@ -229,6 +229,76 @@ select.field option {
   background: rgba(255, 255, 255, 0.32);
 }
 
+.area-map {
+  background: var(--night-2);
+}
+
+.area-map .leaflet-pane,
+.area-map .leaflet-top,
+.area-map .leaflet-bottom,
+.area-map .leaflet-control {
+  z-index: 1;
+}
+
+.area-map .leaflet-control-attribution {
+  background: rgba(7, 9, 13, 0.72);
+  color: var(--muted);
+}
+
+.area-map .leaflet-control-attribution a {
+  color: var(--fog);
+}
+
+.area-map .leaflet-bar a {
+  background: var(--night-2);
+  color: var(--fog);
+  border-bottom-color: var(--line);
+}
+
+.area-map .leaflet-bar a:hover {
+  background: var(--night-3);
+  color: var(--amber);
+}
+
+.area-map .leaflet-popup-content-wrapper,
+.area-map .leaflet-popup-tip {
+  background: var(--night-2);
+  color: var(--fog);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.map-pin-wrap {
+  background: none;
+  border: none;
+}
+
+.map-pin {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px rgba(7, 9, 13, 0.55);
+}
+
+.map-pin-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--amber);
+  color: #14100a;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.map-pin-place {
+  background: #eef1f6;
+}
+
+.map-pin-active {
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(242, 166, 59, 0.35);
+}
+
 details summary::-webkit-details-marker {
   display: none;
 }

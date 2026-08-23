@@ -291,11 +291,15 @@ export const areaCategories: { id: "all" | AreaCategory; label: string; icon: st
   { id: "schools", label: "Schools", icon: "🏫" },
 ];
 
+export const homeCoords = { lat: 42.0543255, lng: -75.8239855 };
+
 export const areaPlaces: {
   name: string;
   category: AreaCategory;
   blurb: string;
   query: string;
+  lat: number;
+  lng: number;
 }[] = [
   {
     name: "Otsiningo Park",
@@ -303,13 +307,17 @@ export const areaPlaces: {
     blurb:
       "One of Greater Binghamton's major outdoor recreation areas, with walking and biking paths, open green space, fishing, athletic fields, picnic areas, and seasonal activities.",
     query: "Otsiningo Park, Binghamton, NY",
+    lat: 42.1201267,
+    lng: -75.9048827,
   },
   {
     name: "Conklin Players Club",
     category: "outdoors",
     blurb:
       "An 18-hole public golf course right in Conklin — scenic Southern Tier golf close to home.",
-    query: "Conklin Players Club, Conklin, NY",
+    query: "Conklin Players Club, 1520 Conklin Road, Conklin, NY",
+    lat: 42.023562,
+    lng: -75.7995285,
   },
   {
     name: "Ross Park Zoo",
@@ -317,6 +325,8 @@ export const areaPlaces: {
     blurb:
       "One of the nation's oldest zoos, part of Binghamton since 1875, with red pandas, African penguins, red wolves, and more. The Ross Park area also has additional recreation around it.",
     query: "Ross Park Zoo, Binghamton, NY",
+    lat: 42.0745764,
+    lng: -75.9081642,
   },
   {
     name: "Binghamton Rumble Ponies",
@@ -324,6 +334,8 @@ export const areaPlaces: {
     blurb:
       "Double-A professional baseball affiliated with the New York Mets, at Mirabito Stadium in downtown Binghamton.",
     query: "Mirabito Stadium, Binghamton, NY",
+    lat: 42.1030931,
+    lng: -75.904792,
   },
   {
     name: "Visions Veterans Memorial Arena",
@@ -331,6 +343,8 @@ export const areaPlaces: {
     blurb:
       "Downtown arena for Black Bears hockey, concerts, sporting events, family shows, and other regional entertainment.",
     query: "Visions Veterans Memorial Arena, Binghamton, NY",
+    lat: 42.0957335,
+    lng: -75.9131945,
   },
   {
     name: "Binghamton University Athletics",
@@ -338,20 +352,26 @@ export const areaPlaces: {
     blurb:
       "NCAA Division I Bearcats basketball, baseball, lacrosse, soccer, and other collegiate sports on the Vestal campus.",
     query: "Binghamton University Events Center, Vestal, NY",
+    lat: 42.0933917,
+    lng: -75.9719273,
   },
   {
     name: "Broome County Forum Theatre",
     category: "entertainment",
     blurb:
       "Historic downtown theater for Broadway touring productions, concerts, opera, orchestral performances, and other live entertainment.",
-    query: "Broome County Forum Theatre, Binghamton, NY",
+    query: "The Forum Performing Arts Theater, Washington Street, Binghamton, NY",
+    lat: 42.101527,
+    lng: -75.9123602,
   },
   {
     name: "Anderson Center",
     category: "entertainment",
     blurb:
       "Binghamton University's Anderson Center hosts performances, lectures, and public programming on the Vestal campus.",
-    query: "Anderson Center Binghamton University, Vestal, NY",
+    query: "Anderson Center, Binghamton University, Vestal, NY",
+    lat: 42.0898359,
+    lng: -75.9684111,
   },
   {
     name: "Roberson Museum & Science Center",
@@ -359,6 +379,8 @@ export const areaPlaces: {
     blurb:
       "Art, regional history, science exhibits, a historic mansion, rotating exhibitions, and the area's planetarium in downtown Binghamton.",
     query: "Roberson Museum and Science Center, Binghamton, NY",
+    lat: 42.0937416,
+    lng: -75.9185246,
   },
   {
     name: "Phelps Mansion Museum",
@@ -366,6 +388,8 @@ export const areaPlaces: {
     blurb:
       "A preserved 1870 Gilded Age mansion in downtown Binghamton, with historic interiors, tours, and special events.",
     query: "Phelps Mansion Museum, Binghamton, NY",
+    lat: 42.100712,
+    lng: -75.905629,
   },
   {
     name: "Kopernik Observatory & Science Center",
@@ -373,25 +397,33 @@ export const areaPlaces: {
     blurb:
       "Public astronomy programs, telescopes, STEM programming, and special events in Vestal.",
     query: "Kopernik Observatory & Science Center, Vestal, NY",
+    lat: 42.0021034,
+    lng: -76.033339,
   },
   {
     name: "Vestal Parkway",
     category: "shopping",
     blurb:
       "The main commercial corridor for stores, restaurants, and everyday services — Town Square, Parkway Plaza, and the Shoppes at Vestal.",
-    query: "Vestal Parkway, Vestal, NY",
+    query: "Town Square Mall, Vestal Parkway, Vestal, NY",
+    lat: 42.0979424,
+    lng: -76.0101298,
   },
   {
     name: "Wegmans",
     category: "shopping",
     blurb: "Everyday grocery run in Johnson City, a short drive from Conklin.",
     query: "Wegmans, Johnson City, NY",
+    lat: 42.1229229,
+    lng: -75.9731638,
   },
   {
     name: "Target",
     category: "shopping",
     blurb: "Target on Vestal Parkway for household, clothing, and everyday shopping.",
     query: "Target, Vestal Parkway, Vestal, NY",
+    lat: 42.0938074,
+    lng: -76.0016046,
   },
   {
     name: "Downtown Binghamton",
@@ -399,6 +431,8 @@ export const areaPlaces: {
     blurb:
       "Restaurants, businesses, and nightlife in the city center — a convenient night out from a Conklin home base.",
     query: "Downtown Binghamton, NY",
+    lat: 42.0988,
+    lng: -75.9125,
   },
   {
     name: "Binghamton University",
@@ -406,13 +440,17 @@ export const areaPlaces: {
     blurb:
       "Main campus at 4400 Vestal Parkway East. NCAA Division I athletics, Anderson Center performances, lectures, cultural events, and a strong base of technology, research, healthcare, and professional employment.",
     query: "4400 Vestal Parkway East, Vestal, NY",
+    lat: 42.0953444,
+    lng: -75.9672052,
   },
   {
     name: "Susquehanna Valley Central School District",
     category: "schools",
     blurb:
       "80 Carlin Rd is in the Susquehanna Valley Central School District — the Sabers. The district covers Conklin and nearby towns, with elementary, middle, and high school in the local community.",
-    query: "Susquehanna Valley Central School District, Conklin, NY",
+    query: "Susquehanna Valley Senior High School, 1040 Conklin Rd, Conklin, NY",
+    lat: 42.0767433,
+    lng: -75.823247,
   },
   {
     name: "Francis P. Donnelly Elementary School",
@@ -420,6 +458,8 @@ export const areaPlaces: {
     blurb:
       "The Conklin elementary school (Pre-K–5) at 1168 Conklin Rd — the district's neighborhood elementary on this side of the valley.",
     query: "Francis P. Donnelly School, 1168 Conklin Rd, Conklin, NY",
+    lat: 42.0611879,
+    lng: -75.8101906,
   },
   {
     name: "Richard T. Stank Middle School",
@@ -427,6 +467,8 @@ export const areaPlaces: {
     blurb:
       "Grades 6–8 at 1040 Conklin Rd in Conklin, on the same campus as the high school.",
     query: "Richard T. Stank Middle School, 1040 Conklin Rd, Conklin, NY",
+    lat: 42.0772877,
+    lng: -75.8239573,
   },
   {
     name: "Susquehanna Valley Senior High School",
@@ -434,6 +476,8 @@ export const areaPlaces: {
     blurb:
       "Grades 9–12 at 1040 Conklin Rd in Conklin. The district high school for Sabers athletics, arts, and academics.",
     query: "Susquehanna Valley Senior High School, 1040 Conklin Rd, Conklin, NY",
+    lat: 42.0767433,
+    lng: -75.823247,
   },
   {
     name: "Brookside Elementary School",
@@ -441,6 +485,8 @@ export const areaPlaces: {
     blurb:
       "The district's other elementary (Pre-K–5), at 3849 Saddlemire Rd in the Town of Binghamton.",
     query: "Brookside Elementary School, 3849 Saddlemire Rd, Binghamton, NY",
+    lat: 42.0287232,
+    lng: -75.8934459,
   },
 ];
 
