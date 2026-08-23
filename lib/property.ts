@@ -18,10 +18,6 @@ export type Photo = {
 /**
  * Confirmed listing facts live here. Empty strings stay off the public page.
  * Do not add a Zillow Rent Zestimate. Asking rent is $2,500/month.
- *
- * Leave contactEmail / contactPhone empty unless you want them in the
- * built JavaScript. Prefer showingHref or infoHref (Calendly, Google Form,
- * or Zillow contact) so a personal number is not scraped.
  */
 export const property = {
   addressLine: "80 Carlin Rd",
@@ -48,11 +44,12 @@ export const property = {
   applicationUrl: "",
   showingHref: "",
   infoHref: "",
-  contactEmail: "",
-  contactPhone: "",
+  contactName: "Scott Ruiter",
+  contactEmail: "scott.a.ruiter@gmail.com",
+  contactPhone: "6165026608",
+  contactPhoneLabel: "(616) 502-6608",
   heroImage: "/images/front.jpg",
   ogImage: "/images/og.jpg",
-  web3formsKey: "",
   mapEmbedUrl:
     "https://maps.google.com/maps?q=80%20Carlin%20Rd%2C%20Conklin%2C%20NY%2013748&z=15&output=embed",
   mapLink:
@@ -226,19 +223,39 @@ export const locationAccess = [
   "Regional destinations",
 ];
 
-function mailto(subject: string) {
-  if (!property.contactEmail) return "";
-  return `mailto:${property.contactEmail}?subject=${encodeURIComponent(subject)}`;
-}
-
 export const ctas = {
-  showing: property.showingHref || mailto("Showing request — 80 Carlin Rd") || "#contact",
-  info: property.infoHref || mailto("Information request — 80 Carlin Rd") || "#contact",
+  showing: "#tour",
   gallery: "#gallery",
   lease: "#lease",
-  apply: property.applicationUrl || "#contact",
+  apply: property.applicationUrl || "#tour",
   zillow: property.zillowUrl,
+  tel: `tel:+1${property.contactPhone}`,
+  sms: `sms:+1${property.contactPhone}`,
 };
+
+export const sections = [
+  { id: "home", label: "Top" },
+  { id: "story", label: "The home" },
+  { id: "gallery", label: "Photos" },
+  { id: "power", label: "Power" },
+  { id: "spaces", label: "Spaces" },
+  { id: "lease", label: "Lease" },
+  { id: "location", label: "Location" },
+  { id: "faq", label: "FAQ" },
+  { id: "tour", label: "Tour" },
+];
+
+export const stats: {
+  value: number;
+  suffix: string;
+  label: string;
+  decimals?: number;
+}[] = [
+  { value: 3, suffix: "", label: "Bedrooms" },
+  { value: 1.5, suffix: "", label: "Bathrooms", decimals: 1 },
+  { value: 1808, suffix: "", label: "Square feet" },
+  { value: 26, suffix: " kW", label: "Standby power" },
+];
 
 export const galleryFilters: { id: "all" | PhotoCategory; label: string }[] = [
   { id: "all", label: "All" },

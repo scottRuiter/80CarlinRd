@@ -1,18 +1,19 @@
-import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Sans } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, Instrument_Serif } from "next/font/google";
 import { asset } from "@/lib/asset";
 import { fullAddress, property } from "@/lib/property";
 import "./globals.css";
 
-const plex = IBM_Plex_Sans({
-  variable: "--font-plex",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -47,12 +48,17 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#07090d",
+};
+
 const listingJsonLd = {
   "@context": "https://schema.org",
   "@type": "SingleFamilyResidence",
   name: property.headline,
   url: property.siteUrl,
   image: `${property.siteUrl}${property.ogImage}`,
+  telephone: `+1${property.contactPhone}`,
   address: {
     "@type": "PostalAddress",
     streetAddress: property.addressLine,
@@ -88,8 +94,8 @@ const listingJsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${plex.variable} ${fraunces.variable} h-full antialiased`}>
-      <body className="min-h-full bg-paper text-ink">
+    <html lang="en" className={`${inter.variable} ${instrument.variable} h-full antialiased`}>
+      <body className="min-h-full">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}

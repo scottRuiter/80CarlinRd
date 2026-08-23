@@ -18,15 +18,15 @@ zillowUrl: "https://www.zillow.com/homedetails/...",
 pending.availableDate: "September 1, 2026",
 ```
 
-Leave `contactEmail` and `contactPhone` empty unless you want a dedicated rental inbox in the built JavaScript.
+## Showing requests
 
-To receive showing requests on the website form, add a free [Web3Forms](https://web3forms.com) key:
+The tour form posts to [FormSubmit](https://formsubmit.co) and is delivered to
+`scott.a.ruiter@gmail.com`. FormSubmit requires a one-time activation: the first
+submission triggers a confirmation email — click the link in it and every later
+request lands in the inbox.
 
-```ts
-web3formsKey: "your-access-key",
-```
-
-Until then, the form copies the renter's request and opens the Zillow listing.
+The form endpoint lives in `components/TourForm.tsx`. Phone number and contact
+name live in `lib/property.ts`.
 
 ## Local development
 

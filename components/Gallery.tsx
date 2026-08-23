@@ -1,37 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Reveal } from "@/components/Reveal";
 import { asset } from "@/lib/asset";
-import {
-  featuredPhotos,
-  gallery,
-  galleryFilters,
-  type PhotoCategory,
-} from "@/lib/property";
+import { gallery, galleryFilters, type PhotoCategory } from "@/lib/property";
 
 export function Gallery() {
   const [filter, setFilter] = useState<"all" | PhotoCategory>("all");
   const [active, setActive] = useState<number | null>(null);
+  const touchStart = useRef<number | null>(null);
 
   const visible = useMemo(
     () => (filter === "all" ? gallery : gallery.filter((photo) => photo.category === filter)),
     [filter],
   );
 
-  const openFromGallery = (src: string) => {
-    const index = gallery.findIndex((photo) => photo.src === src);
-    if (index >= 0) setActive(index);
-  };
-
   const close = useCallback(() => setActive(null), []);
-  const prev = useCallback(() => {
+  const step = useCallback((delta: number) => {
     setActive((current) =>
-      current === null ? current : (current + gallery.length - 1) % gallery.length,
-    );
-  }, []);
-  const next = useCallback(() => {
-    setActive((current) =>
-      current === null ? current : (current + 1) % gallery.length,
+      current === null ? current : (current + delta + gallery.length) % gallery.length,
     );
   }, []);
 
@@ -40,8 +27,8 @@ export function Gallery() {
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") close();
-      if (event.key === "ArrowLeft") prev();
-      if (event.key === "ArrowRight") next();
+      if (event.key === "ArrowLeft") step(-1);
+      if (event.key === "ArrowRight") step(1);
     };
 
     document.body.style.overflow = "hidden";
@@ -50,81 +37,65 @@ export function Gallery() {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
-  }, [active, close, next, prev]);
+  }, [active, close, step]);
 
   const current = active === null ? null : gallery[active];
-  const featured = featuredPhotos
-    .map((src) => gallery.find((photo) => photo.src === src))
-    .filter((photo): photo is NonNullable<typeof photo> => Boolean(photo));
 
   return (
-    <section id="gallery" className="scroll-mt-20 px-4 py-16 sm:px-6">
-      <div className="mx-auto max-w-6xl">
-        <p className="section-kicker">Photo gallery</p>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="max-w-xl font-display text-3xl font-semibold tracking-tight sm:text-5xl">
-            Walk through the house.
-          </h2>
-          <p className="max-w-sm text-sm text-muted">
-            Start with the rooms that matter, then open any photo full screen.
-          </p>
-        </div>
+    <section id="gallery" className="scroll-mt-24 px-5 py-24 sm:px-8">
+      <div className="mx-auto max-w-7xl">
+        <Reveal>
+          <p className="kicker">Photo tour</p>
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <h2 className="display max-w-2xl text-4xl sm:text-6xl">
+              Every room, <em className="text-amber">unstaged</em>.
+            </h2>
+            <p className="max-w-sm text-muted">
+              {gallery.length} photos. Tap any image for full screen, then swipe or
+              use the arrow keys.
+            </p>
+          </div>
+        </Reveal>
 
-        <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4 md:grid-rows-2">
-          {featured.map((photo, index) => (
+        <Reveal className="mt-10" delay={80}>
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {galleryFilters.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setFilter(item.id)}
+                className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
+                  filter === item.id
+                    ? "border-amber bg-amber text-[#14100a]"
+                    : "border-line text-muted hover:border-white/40 hover:text-fog"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </Reveal>
+
+        <div className="mt-6 columns-2 gap-3 md:columns-3 lg:columns-4 [&>*]:mb-3">
+          {visible.map((photo, index) => (
             <button
               key={photo.src}
               type="button"
-              onClick={() => openFromGallery(photo.src)}
-              className={`group relative overflow-hidden rounded-2xl bg-line text-left ${
-                index === 0 ? "col-span-2 aspect-[4/3] md:row-span-2 md:aspect-auto md:h-full" : "aspect-[4/3]"
-              }`}
+              onClick={() => setActive(gallery.findIndex((item) => item.src === photo.src))}
+              className="group relative block w-full overflow-hidden rounded-2xl border border-line bg-night-2 text-left break-inside-avoid"
             >
               <img
                 src={asset(photo.src)}
                 alt={photo.alt}
-                className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                loading={index < 4 ? "eager" : "lazy"}
+                className="w-full object-cover transition duration-700 group-hover:scale-[1.05]"
               />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent px-3 py-2 text-sm text-white">
-                {photo.caption}
-              </span>
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-8 flex gap-2 overflow-x-auto pb-1">
-          {galleryFilters.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => setFilter(item.id)}
-              className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                filter === item.id
-                  ? "bg-ink text-paper"
-                  : "border border-line bg-card text-muted hover:text-ink"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4">
-          {visible.map((photo) => (
-            <button
-              key={photo.src}
-              type="button"
-              onClick={() => openFromGallery(photo.src)}
-              className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-line text-left"
-            >
-              <img
-                src={asset(photo.src)}
-                alt={photo.alt}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-              />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-3 py-2 text-sm text-white">
-                {photo.caption}
+              <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/85 via-transparent to-transparent opacity-70 transition group-hover:opacity-95" />
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between px-4 py-3 text-sm">
+                <span className="font-medium text-fog">{photo.caption}</span>
+                <span className="translate-x-2 text-amber opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100">
+                  ↗
+                </span>
               </span>
             </button>
           ))}
@@ -133,51 +104,74 @@ export function Gallery() {
 
       {current ? (
         <div
-          className="fixed inset-0 z-50 flex flex-col bg-ink/94 p-3 text-white sm:p-6"
+          className="fixed inset-0 z-[60] flex flex-col bg-night/97 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label={current.alt}
-          onClick={close}
+          onTouchStart={(event) => {
+            touchStart.current = event.touches[0].clientX;
+          }}
+          onTouchEnd={(event) => {
+            if (touchStart.current === null) return;
+            const delta = event.changedTouches[0].clientX - touchStart.current;
+            if (Math.abs(delta) > 50) step(delta > 0 ? -1 : 1);
+            touchStart.current = null;
+          }}
         >
-          <div className="mb-3 flex items-center justify-between gap-3 text-sm">
-            <p>
+          <div className="flex items-center justify-between px-5 py-4 text-sm sm:px-8">
+            <p className="text-fog">
               {current.caption}
-              <span className="ml-2 text-white/60">
+              <span className="ml-3 text-muted">
                 {active! + 1} / {gallery.length}
               </span>
             </p>
-            <button type="button" className="btn-ghost min-h-10 px-4" onClick={close}>
-              Close
+            <button
+              type="button"
+              onClick={close}
+              className="rounded-full border border-line px-4 py-2 text-fog transition hover:border-white/50"
+            >
+              Close ✕
             </button>
           </div>
-          <div className="relative min-h-0 flex-1" onClick={(event) => event.stopPropagation()}>
+
+          <div className="relative min-h-0 flex-1 px-3 sm:px-8">
             <img
               src={asset(current.src)}
               alt={current.alt}
-              className="absolute inset-0 h-full w-full object-contain"
+              className="absolute inset-0 mx-auto h-full w-full object-contain px-3 sm:px-8"
             />
+            <button
+              type="button"
+              onClick={() => step(-1)}
+              aria-label="Previous photo"
+              className="absolute left-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-night/70 text-xl text-fog transition hover:border-amber hover:text-amber sm:flex"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => step(1)}
+              aria-label="Next photo"
+              className="absolute right-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-night/70 text-xl text-fog transition hover:border-amber hover:text-amber sm:flex"
+            >
+              →
+            </button>
           </div>
-          <div className="mt-3 flex justify-between gap-3">
-            <button
-              type="button"
-              className="btn-ghost min-h-10 flex-1"
-              onClick={(event) => {
-                event.stopPropagation();
-                prev();
-              }}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              className="btn-ghost min-h-10 flex-1"
-              onClick={(event) => {
-                event.stopPropagation();
-                next();
-              }}
-            >
-              Next
-            </button>
+
+          <div className="flex gap-2 overflow-x-auto px-5 py-4 sm:px-8">
+            {gallery.map((photo, index) => (
+              <button
+                key={photo.src}
+                type="button"
+                onClick={() => setActive(index)}
+                aria-label={photo.caption}
+                className={`h-14 w-20 shrink-0 overflow-hidden rounded-lg border transition ${
+                  index === active ? "border-amber opacity-100" : "border-transparent opacity-50 hover:opacity-90"
+                }`}
+              >
+                <img src={asset(photo.src)} alt="" className="h-full w-full object-cover" />
+              </button>
+            ))}
           </div>
         </div>
       ) : null}
