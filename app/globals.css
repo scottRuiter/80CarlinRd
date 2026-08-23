@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f3eee4;
+  --ink: #1b1714;
+  --muted: #5c564d;
+  --line: #d4cbbd;
+  --brick: #7c2f28;
+  --brick-deep: #5f241e;
+  --card: #faf7f0;
+  --sage: #3f5342;
+  --power: #d06a22;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brick: var(--brick);
+  --color-brick-deep: var(--brick-deep);
+  --color-card: var(--card);
+  --color-sage: var(--sage);
+  --color-power: var(--power);
+  --font-sans: var(--font-plex);
+  --font-display: var(--font-fraunces);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-plex), "IBM Plex Sans", sans-serif;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 999px;
+  background: var(--brick);
+  color: #fff8f3;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 160ms ease;
+}
+
+.btn-primary:hover {
+  background: var(--brick-deep);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.2rem;
+  border: 1px solid color-mix(in srgb, #fff 45%, transparent);
+  border-radius: 999px;
+  color: #fff8f3;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-ghost:hover {
+  background: color-mix(in srgb, #fff 12%, transparent);
+}
+
+.btn-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-light:hover {
+  border-color: var(--ink);
+}
+
+.section-kicker {
+  margin: 0 0 0.75rem;
+  color: var(--brick);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
