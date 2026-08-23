@@ -98,6 +98,7 @@ export function TourForm() {
         <h3 className="display text-3xl">Request a showing</h3>
         <p className="mt-2 text-sm text-muted">
           Fill this out and hit save. It goes straight to {property.contactName}.
+          Expectation: 3× rent ($7,500/month), 650+ credit, and renters insurance.
         </p>
       </div>
 

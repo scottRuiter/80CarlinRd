@@ -247,12 +247,29 @@ export const leaseTerms = [
   "Tenant is responsible for damage beyond normal wear and tear caused by the tenant, occupants, guests, or pets",
   "Maintenance concerns or property damage must be reported promptly to the property owner",
   "Pets may be considered with owner approval and are subject to applicable lease and pet terms",
+  "Gross household income must be at least 3× the monthly rent ($7,500/month at $2,500 rent)",
+  "Credit score must be 650 or higher",
   "Renters insurance is required for the duration of the lease",
   "Security deposit, pet terms, maintenance responsibilities, and all other rental conditions will be detailed in the signed lease agreement",
 ];
 
 export const petPolicy =
   "Pets may be considered with owner approval and are subject to applicable lease and pet terms.";
+
+export const qualifications = [
+  {
+    title: "3× income",
+    body: "Gross household income must be at least three times the monthly rent — $7,500/month at $2,500 rent.",
+  },
+  {
+    title: "650+ credit",
+    body: "A credit score of 650 or higher is required for all adult applicants.",
+  },
+  {
+    title: "Renters insurance",
+    body: "An active renters insurance policy is required for the full term of the lease.",
+  },
+];
 
 export type AreaCategory =
   | "outdoors"
@@ -514,6 +531,14 @@ export const faqs = [
   {
     q: "What are the lease basics?",
     a: "A 12-month lease is preferred. No smoking or vaping inside the home. Renters insurance is required. Deposit, pet terms, and remaining conditions are confirmed in the signed lease.",
+  },
+  {
+    q: "What are the income and credit requirements?",
+    a: "Gross household income must be at least 3× the monthly rent ($7,500/month at $2,500 rent). Credit score must be 650 or higher.",
+  },
+  {
+    q: "Is renters insurance required?",
+    a: "Yes. Renters insurance is required for the duration of the lease.",
   },
 ];
 

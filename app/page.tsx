@@ -419,7 +419,8 @@ export default function Home() {
               </h2>
               <p className="mt-5 max-w-md text-muted">
                 Photos only go so far. Send your details and we will set up a time —
-                evenings and weekends included.
+                evenings and weekends included. Applicants should have 3× income
+                ($7,500/month), a 650+ credit score, and renters insurance.
               </p>
 
               <div className="mt-8 grid gap-3">
