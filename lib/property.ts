@@ -247,6 +247,153 @@ export const leaseTerms = [
 export const petPolicy =
   "Pets may be considered with owner approval and are subject to applicable lease and pet terms.";
 
+export type AreaCategory =
+  | "outdoors"
+  | "sports"
+  | "entertainment"
+  | "culture"
+  | "shopping"
+  | "university";
+
+export const areaCategories: { id: "all" | AreaCategory; label: string; icon: string }[] = [
+  { id: "all", label: "All", icon: "◆" },
+  { id: "outdoors", label: "Outdoors", icon: "🏞" },
+  { id: "sports", label: "Sports", icon: "⚾" },
+  { id: "entertainment", label: "Entertainment", icon: "🎭" },
+  { id: "culture", label: "Culture", icon: "🏛" },
+  { id: "shopping", label: "Shopping", icon: "🛍" },
+  { id: "university", label: "University", icon: "🎓" },
+];
+
+export const areaPlaces: {
+  name: string;
+  category: AreaCategory;
+  blurb: string;
+  query: string;
+}[] = [
+  {
+    name: "Otsiningo Park",
+    category: "outdoors",
+    blurb:
+      "One of Greater Binghamton's major outdoor recreation areas, with walking and biking paths, open green space, fishing, athletic fields, picnic areas, and seasonal activities.",
+    query: "Otsiningo Park, Binghamton, NY",
+  },
+  {
+    name: "Conklin Players Club",
+    category: "outdoors",
+    blurb:
+      "An 18-hole public golf course right in Conklin — scenic Southern Tier golf close to home.",
+    query: "Conklin Players Club, Conklin, NY",
+  },
+  {
+    name: "Ross Park Zoo",
+    category: "outdoors",
+    blurb:
+      "One of the nation's oldest zoos, part of Binghamton since 1875, with red pandas, African penguins, red wolves, and more. The Ross Park area also has additional recreation around it.",
+    query: "Ross Park Zoo, Binghamton, NY",
+  },
+  {
+    name: "Binghamton Rumble Ponies",
+    category: "sports",
+    blurb:
+      "Double-A professional baseball affiliated with the New York Mets, at Mirabito Stadium in downtown Binghamton.",
+    query: "Mirabito Stadium, Binghamton, NY",
+  },
+  {
+    name: "Visions Veterans Memorial Arena",
+    category: "sports",
+    blurb:
+      "Downtown arena for Black Bears hockey, concerts, sporting events, family shows, and other regional entertainment.",
+    query: "Visions Veterans Memorial Arena, Binghamton, NY",
+  },
+  {
+    name: "Binghamton University Athletics",
+    category: "sports",
+    blurb:
+      "NCAA Division I Bearcats basketball, baseball, lacrosse, soccer, and other collegiate sports on the Vestal campus.",
+    query: "Binghamton University Events Center, Vestal, NY",
+  },
+  {
+    name: "Broome County Forum Theatre",
+    category: "entertainment",
+    blurb:
+      "Historic downtown theater for Broadway touring productions, concerts, opera, orchestral performances, and other live entertainment.",
+    query: "Broome County Forum Theatre, Binghamton, NY",
+  },
+  {
+    name: "Anderson Center",
+    category: "entertainment",
+    blurb:
+      "Binghamton University's Anderson Center hosts performances, lectures, and public programming on the Vestal campus.",
+    query: "Anderson Center Binghamton University, Vestal, NY",
+  },
+  {
+    name: "Roberson Museum & Science Center",
+    category: "culture",
+    blurb:
+      "Art, regional history, science exhibits, a historic mansion, rotating exhibitions, and the area's planetarium in downtown Binghamton.",
+    query: "Roberson Museum and Science Center, Binghamton, NY",
+  },
+  {
+    name: "Phelps Mansion Museum",
+    category: "culture",
+    blurb:
+      "A preserved 1870 Gilded Age mansion in downtown Binghamton, with historic interiors, tours, and special events.",
+    query: "Phelps Mansion Museum, Binghamton, NY",
+  },
+  {
+    name: "Kopernik Observatory & Science Center",
+    category: "culture",
+    blurb:
+      "Public astronomy programs, telescopes, STEM programming, and special events in Vestal.",
+    query: "Kopernik Observatory & Science Center, Vestal, NY",
+  },
+  {
+    name: "Vestal Parkway",
+    category: "shopping",
+    blurb:
+      "The main commercial corridor for stores, restaurants, and everyday services — Town Square, Parkway Plaza, and the Shoppes at Vestal.",
+    query: "Vestal Parkway, Vestal, NY",
+  },
+  {
+    name: "Wegmans",
+    category: "shopping",
+    blurb: "Everyday grocery run in Johnson City, a short drive from Conklin.",
+    query: "Wegmans, Johnson City, NY",
+  },
+  {
+    name: "Target",
+    category: "shopping",
+    blurb: "Target on Vestal Parkway for household, clothing, and everyday shopping.",
+    query: "Target, Vestal Parkway, Vestal, NY",
+  },
+  {
+    name: "Downtown Binghamton",
+    category: "shopping",
+    blurb:
+      "Restaurants, businesses, and nightlife in the city center — a convenient night out from a Conklin home base.",
+    query: "Downtown Binghamton, NY",
+  },
+  {
+    name: "Binghamton University",
+    category: "university",
+    blurb:
+      "Main campus at 4400 Vestal Parkway East. NCAA Division I athletics, Anderson Center performances, lectures, cultural events, and a strong base of technology, research, healthcare, and professional employment.",
+    query: "4400 Vestal Parkway East, Vestal, NY",
+  },
+];
+
+export const outdoorLiving = [
+  "Walking and biking trails",
+  "Parks and green spaces",
+  "Golf",
+  "Fishing",
+  "Hiking",
+  "Picnic areas",
+  "Seasonal recreation",
+  "Nearby state and county parks",
+];
+
 export const locationAccess = [
   "Binghamton",
   "Greater Binghamton employment centers",
@@ -269,16 +416,14 @@ export const ctas = {
 };
 
 export const sections = [
-  { id: "home", label: "Top" },
-  { id: "story", label: "The home" },
-  { id: "gallery", label: "Photos" },
-  { id: "power", label: "Power" },
-  { id: "connected", label: "Connected" },
-  { id: "spaces", label: "Spaces" },
-  { id: "lease", label: "Lease" },
-  { id: "location", label: "Location" },
-  { id: "faq", label: "FAQ" },
-  { id: "tour", label: "Tour" },
+  { id: "home", label: "Home" },
+  { id: "story", label: "Property" },
+  { id: "gallery", label: "Gallery" },
+  { id: "features", label: "Features" },
+  { id: "explore", label: "Explore the Area" },
+  { id: "faq", label: "Qualifications" },
+  { id: "lease", label: "Lease Terms" },
+  { id: "tour", label: "Apply" },
 ];
 
 export const stats: {
@@ -341,6 +486,10 @@ export const faqs = [
   {
     q: "What school district is this?",
     a: "Susquehanna Valley Central School District, in Conklin, Broome County.",
+  },
+  {
+    q: "What is nearby?",
+    a: "A residential Conklin setting with easy access to Greater Binghamton — Otsiningo Park, Ross Park Zoo, Conklin Players Club, downtown sports and theater, Vestal Parkway shopping, and Binghamton University.",
   },
   {
     q: "Who pays utilities?",

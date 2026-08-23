@@ -1,5 +1,6 @@
 import { BlackoutDemo } from "@/components/BlackoutDemo";
 import { CountUp } from "@/components/CountUp";
+import { ExploreArea } from "@/components/ExploreArea";
 import { Faq } from "@/components/Faq";
 import { Gallery } from "@/components/Gallery";
 import { MobileBar } from "@/components/MobileBar";
@@ -215,7 +216,7 @@ export default function Home() {
 
         <Gallery />
 
-        <section id="power" className="relative scroll-mt-24 overflow-hidden py-24">
+        <section id="features" className="relative scroll-mt-24 overflow-hidden py-24">
           <img
             src={asset("/images/generac.jpg")}
             alt=""
@@ -373,41 +374,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="location" className="scroll-mt-24 px-5 py-24 sm:px-8">
-          <div className="mx-auto max-w-7xl">
-            <Reveal>
-              <p className="kicker">Location</p>
-              <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-                <h2 className="display max-w-xl text-4xl sm:text-6xl">
-                  Conklin, New York
-                </h2>
-                <p className="max-w-sm text-muted">
-                  Broome County · {property.schoolDistrict} · minutes from Binghamton
-                  and the roads people actually commute on.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal className="mt-10 overflow-hidden rounded-3xl border border-line" delay={80}>
-              <iframe
-                title={`Map of ${fullAddress}`}
-                src={property.mapEmbedUrl}
-                className="h-[360px] w-full border-0 grayscale-[0.4] contrast-[1.1] sm:h-[460px]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </Reveal>
-
-            <a
-              href={property.mapLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-block text-sm font-semibold text-amber hover:underline"
-            >
-              Open in Google Maps ↗
-            </a>
-          </div>
-        </section>
+        <ExploreArea />
 
         <Faq />
 
