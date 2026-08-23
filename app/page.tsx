@@ -59,7 +59,7 @@ const spaces = [
   { img: "/images/sunroom.jpg", title: "Sunroom", body: "New flooring, wraparound windows, and a bright extra room that looks onto the yard." },
   { img: "/images/tile.jpg", title: "Lower level", body: "Finished flexible space with a bar counter — den, office, or playroom." },
   { img: "/images/backyard.jpg", title: "Yard", body: "Deep lawn, mature trees, and a storage shed on about 0.39 acres." },
-  { img: "/images/front-lawn.jpg", title: "Garage", body: "Attached 1-stall garage — off the street and out of the weather." },
+  { img: "/images/front-lawn.jpg", title: "Driveway", body: "Private driveway to the attached 1-stall garage — off the street and out of the weather." },
 ];
 
 export default function Home() {
@@ -220,6 +220,84 @@ export default function Home() {
 
         <Gallery />
 
+        <section id="spaces" className="scroll-mt-24 px-5 py-24 sm:px-8">
+          <div className="mx-auto max-w-7xl">
+            <Reveal>
+              <p className="kicker">The spaces</p>
+              <h2 className="display max-w-2xl text-4xl sm:text-6xl">
+                Rooms you will actually use.
+              </h2>
+            </Reveal>
+
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {spaces.map((space, index) => (
+                <Reveal key={space.title} delay={index * 80}>
+                  <article className="group relative overflow-hidden rounded-3xl border border-line">
+                    <img
+                      src={asset(space.img)}
+                      alt={space.title}
+                      loading="lazy"
+                      className="h-64 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-72"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-night via-night/30 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-6">
+                      <h3 className="display text-2xl">{space.title}</h3>
+                      <p className="mt-2 max-w-sm text-sm text-muted">{space.body}</p>
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+
+            <Reveal className="mt-12" delay={80}>
+              <div id="sunroom" className="glass overflow-hidden">
+                <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                  <div className="grid grid-cols-2 gap-2 p-3">
+                    <img
+                      src={asset("/images/sunroom.jpg")}
+                      alt="Updated sunroom with wraparound windows"
+                      className="col-span-2 h-64 w-full rounded-2xl object-cover sm:h-80"
+                      loading="lazy"
+                    />
+                    <img
+                      src={asset("/images/sunroom-3.jpg")}
+                      alt="Sunroom corner with new windows and wood paneling"
+                      className="h-36 w-full rounded-2xl object-cover sm:h-44"
+                      loading="lazy"
+                    />
+                    <img
+                      src={asset("/images/backyard-6.jpg")}
+                      alt="Rear of the house showing the sunroom above the yard"
+                      className="h-36 w-full rounded-2xl object-cover sm:h-44"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-7 sm:p-10">
+                    <p className="kicker">Updated sunroom</p>
+                    <h3 className="display max-w-xl text-3xl sm:text-4xl">
+                      New flooring, wraparound windows, and no assigned purpose.
+                    </h3>
+                    <p className="mt-4 text-sm text-muted">
+                      Bright extra living space looking onto the yard — sitting room,
+                      office, hobby space, or morning coffee.
+                    </p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {sunroomUses.map((use) => (
+                        <span
+                          key={use}
+                          className="rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:border-amber hover:text-amber"
+                        >
+                          {use}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         <section id="features" className="relative scroll-mt-24 overflow-hidden py-24">
           <img
             src={asset("/images/generac.jpg")}
@@ -297,83 +375,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="spaces" className="scroll-mt-24 px-5 py-24 sm:px-8">
-          <div className="mx-auto max-w-7xl">
-            <Reveal>
-              <p className="kicker">The spaces</p>
-              <h2 className="display max-w-2xl text-4xl sm:text-6xl">
-                Rooms you will actually use.
-              </h2>
-            </Reveal>
-
-            <div className="mt-12 grid gap-4 sm:grid-cols-2">
-              {spaces.map((space, index) => (
-                <Reveal key={space.title} delay={index * 80}>
-                  <article className="group relative overflow-hidden rounded-3xl border border-line">
-                    <img
-                      src={asset(space.img)}
-                      alt={space.title}
-                      loading="lazy"
-                      className="h-72 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-96"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-night via-night/30 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-6">
-                      <h3 className="display text-3xl">{space.title}</h3>
-                      <p className="mt-2 max-w-sm text-sm text-muted">{space.body}</p>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal className="mt-12" delay={80}>
-              <div id="sunroom" className="glass overflow-hidden">
-                <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-                  <div className="grid grid-cols-2 gap-2 p-3">
-                    <img
-                      src={asset("/images/sunroom.jpg")}
-                      alt="Updated sunroom with wraparound windows"
-                      className="col-span-2 h-64 w-full rounded-2xl object-cover sm:h-80"
-                      loading="lazy"
-                    />
-                    <img
-                      src={asset("/images/sunroom-2.jpg")}
-                      alt="Sunroom windows looking onto the backyard"
-                      className="h-36 w-full rounded-2xl object-cover sm:h-44"
-                      loading="lazy"
-                    />
-                    <img
-                      src={asset("/images/sunroom-3.jpg")}
-                      alt="Sunroom corner with new windows and wood paneling"
-                      className="h-36 w-full rounded-2xl object-cover sm:h-44"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-7 sm:p-10">
-                    <p className="kicker">Updated sunroom</p>
-                    <h3 className="display max-w-xl text-3xl sm:text-4xl">
-                      New flooring, wraparound windows, and no assigned purpose.
-                    </h3>
-                    <p className="mt-4 text-sm text-muted">
-                      Bright extra living space looking onto the yard — sitting room,
-                      office, hobby space, or morning coffee.
-                    </p>
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {sunroomUses.map((use) => (
-                        <span
-                          key={use}
-                          className="rounded-full border border-line px-4 py-2 text-sm text-muted transition hover:border-amber hover:text-amber"
-                        >
-                          {use}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+        <ExploreArea />
 
         <section id="lease" className="scroll-mt-24 border-y border-line bg-night-2/50 px-5 py-24 sm:px-8">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
@@ -405,8 +407,6 @@ export default function Home() {
             </Reveal>
           </div>
         </section>
-
-        <ExploreArea />
 
         <Faq />
 

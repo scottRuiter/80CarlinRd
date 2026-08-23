@@ -5,15 +5,21 @@ import { Reveal } from "@/components/Reveal";
 import { asset } from "@/lib/asset";
 import { gallery, galleryFilters, type PhotoCategory } from "@/lib/property";
 
+const PREVIEW_COUNT = 12;
+
 export function Gallery() {
   const [filter, setFilter] = useState<"all" | PhotoCategory>("all");
   const [active, setActive] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
   const touchStart = useRef<number | null>(null);
 
-  const visible = useMemo(
+  const matching = useMemo(
     () => (filter === "all" ? gallery : gallery.filter((photo) => photo.category === filter)),
     [filter],
   );
+
+  const visible = expanded ? matching : matching.slice(0, PREVIEW_COUNT);
+  const hidden = matching.length - visible.length;
 
   const close = useCallback(() => setActive(null), []);
   const step = useCallback((delta: number) => {
@@ -63,7 +69,10 @@ export function Gallery() {
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setFilter(item.id)}
+                onClick={() => {
+                  setFilter(item.id);
+                  setExpanded(false);
+                }}
                 className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
                   filter === item.id
                     ? "border-amber bg-amber text-[#14100a]"
@@ -100,6 +109,20 @@ export function Gallery() {
             </button>
           ))}
         </div>
+
+        {hidden > 0 || expanded ? (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setExpanded((current) => !current)}
+              className="btn btn-outline"
+            >
+              {expanded
+                ? "Show fewer photos"
+                : `Show all ${matching.length} photos`}
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {current ? (

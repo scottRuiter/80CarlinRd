@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import {
   areaCategories,
@@ -22,95 +22,139 @@ function mapsLink(query: string) {
 export function ExploreArea() {
   const [filter, setFilter] = useState<"all" | AreaCategory>("all");
   const [selected, setSelected] = useState(fullAddress);
+  const rail = useRef<HTMLDivElement>(null);
+  const mapPanel = useRef<HTMLDivElement>(null);
 
   const places = useMemo(
     () => (filter === "all" ? areaPlaces : areaPlaces.filter((place) => place.category === filter)),
     [filter],
   );
 
+  function scrollRail(direction: 1 | -1) {
+    rail.current?.scrollBy({ left: direction * 340, behavior: "smooth" });
+  }
+
+  function choose(query: string) {
+    setSelected(query);
+    // On phones the map sits below the rail, so bring it into view on selection.
+    if (window.innerWidth < 1024) {
+      mapPanel.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+
   return (
     <section id="explore" className="scroll-mt-24 px-5 py-24 sm:px-8">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <p className="kicker">Explore the Area</p>
-          <h2 className="display max-w-4xl text-4xl sm:text-6xl">
-            A great location in <em className="text-amber">Greater Binghamton</em>.
-          </h2>
-          <p className="mt-6 max-w-3xl text-lg text-muted">
-            80 Carlin Rd offers the balance of a residential Conklin setting with
-            convenient access to the shopping, dining, recreation, entertainment,
-            education, and cultural attractions of Greater Binghamton.
-          </p>
-          <p className="mt-4 max-w-3xl text-muted">
-            Whether you are heading into downtown Binghamton, shopping along
-            Vestal Parkway, spending the day outdoors, attending a sporting event,
-            or visiting Binghamton University, the property is a convenient home
-            base for the Southern Tier.
-          </p>
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <h2 className="display max-w-3xl text-4xl sm:text-6xl">
+              A great location in <em className="text-amber">Greater Binghamton</em>.
+            </h2>
+            <p className="max-w-md text-muted">
+              A residential Conklin address with downtown Binghamton, Vestal Parkway
+              shopping, Binghamton University, and the parks in easy reach. Pick a
+              place to move the map.
+            </p>
+          </div>
         </Reveal>
 
         <Reveal className="mt-10" delay={60}>
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            {areaCategories.map((item) => (
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="rail flex-1">
+              {areaCategories.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    setFilter(item.id);
+                    if (item.id === "all") setSelected(fullAddress);
+                    rail.current?.scrollTo({ left: 0, behavior: "smooth" });
+                  }}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                    filter === item.id
+                      ? "border-amber bg-amber text-[#14100a]"
+                      : "border-line text-muted hover:border-white/40 hover:text-fog"
+                  }`}
+                >
+                  {item.icon} {item.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="hidden shrink-0 items-center gap-2 lg:flex">
               <button
-                key={item.id}
                 type="button"
-                onClick={() => {
-                  setFilter(item.id);
-                  if (item.id === "all") setSelected(fullAddress);
-                }}
-                className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
-                  filter === item.id
-                    ? "border-amber bg-amber text-[#14100a]"
-                    : "border-line text-muted hover:border-white/40 hover:text-fog"
-                }`}
+                onClick={() => scrollRail(-1)}
+                aria-label="Scroll places left"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-fog transition hover:border-amber hover:text-amber"
               >
-                {item.icon} {item.label}
+                ←
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => scrollRail(1)}
+                aria-label="Scroll places right"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-fog transition hover:border-amber hover:text-amber"
+              >
+                →
+              </button>
+            </div>
           </div>
         </Reveal>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-          <div className="grid gap-3">
-            {places.map((place) => {
-              const active = selected === place.query;
-              return (
-                <button
-                  key={place.name}
-                  type="button"
-                  onClick={() => setSelected(place.query)}
-                  className={`glass w-full p-5 text-left transition duration-300 hover:-translate-y-0.5 hover:border-amber/40 ${
-                    active ? "border-amber/70" : ""
-                  }`}
-                >
-                  <p className="text-xs tracking-[0.18em] text-amber uppercase">
-                    {areaCategories.find((item) => item.id === place.category)?.label}
-                  </p>
-                  <h3 className="display mt-2 text-2xl">{place.name}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted">{place.blurb}</p>
-                </button>
-              );
-            })}
-          </div>
+        <div ref={rail} className="rail mt-6">
+          {places.map((place) => {
+            const active = selected === place.query;
+            return (
+              <button
+                key={place.name}
+                type="button"
+                onClick={() => choose(place.query)}
+                className={`glass w-[16rem] p-5 text-left transition duration-300 hover:-translate-y-0.5 hover:border-amber/40 sm:w-[19rem] ${
+                  active ? "border-amber/70" : ""
+                }`}
+              >
+                <p className="text-xs tracking-[0.18em] text-amber uppercase">
+                  {areaCategories.find((item) => item.id === place.category)?.label}
+                </p>
+                <h3 className="display mt-2 text-2xl">{place.name}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted">{place.blurb}</p>
+              </button>
+            );
+          })}
+        </div>
 
-          <div className="lg:sticky lg:top-24">
-            <div className="overflow-hidden rounded-3xl border border-line">
-              <iframe
-                key={selected}
-                title={`Map of ${selected}`}
-                src={embedUrl(selected)}
-                className="h-[360px] w-full border-0 grayscale-[0.35] contrast-[1.08] sm:h-[520px]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
-              <p className="text-muted">
-                {selected === fullAddress
-                  ? `Home base: ${fullAddress}`
-                  : selected}
-              </p>
+        <p className="mt-1 text-xs text-muted lg:hidden">Swipe for more places →</p>
+
+        <div ref={mapPanel} className="mt-8 scroll-mt-24">
+          <div className="overflow-hidden rounded-3xl border border-line">
+            <iframe
+              key={selected}
+              title={`Map of ${selected}`}
+              src={embedUrl(selected)}
+              className="h-[340px] w-full border-0 grayscale-[0.35] contrast-[1.08] sm:h-[460px]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+            <p className="text-muted">
+              {selected === fullAddress ? `Home base: ${fullAddress}` : selected}
+            </p>
+            <div className="flex items-center gap-4">
+              {selected === fullAddress ? null : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFilter("all");
+                    setSelected(fullAddress);
+                  }}
+                  className="text-muted transition hover:text-fog"
+                >
+                  Reset to 80 Carlin Rd
+                </button>
+              )}
               <a
                 href={mapsLink(selected)}
                 target="_blank"
@@ -120,26 +164,21 @@ export function ExploreArea() {
                 Open in Google Maps ↗
               </a>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                setFilter("all");
-                setSelected(fullAddress);
-              }}
-              className="mt-3 text-sm text-muted hover:text-fog"
-            >
-              Reset to 80 Carlin Rd
-            </button>
           </div>
         </div>
 
-        <Reveal className="mt-16" delay={80}>
-          <div className="glass p-7 sm:p-10">
-            <p className="kicker">Outdoor living</p>
-            <h3 className="display max-w-2xl text-3xl sm:text-4xl">
-              The Southern Tier, close enough for a weeknight.
-            </h3>
-            <div className="mt-6 flex flex-wrap gap-2">
+        <Reveal className="mt-14" delay={80}>
+          <div className="glass grid gap-6 p-7 sm:p-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="kicker">Outdoor living</p>
+              <h3 className="display max-w-md text-3xl sm:text-4xl">
+                The Southern Tier, close enough for a weeknight.
+              </h3>
+              <p className="mt-4 text-sm text-muted">
+                {property.schoolDistrict} · Broome County
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
               {outdoorLiving.map((item) => (
                 <span
                   key={item}
@@ -149,21 +188,6 @@ export function ExploreArea() {
                 </span>
               ))}
             </div>
-          </div>
-        </Reveal>
-
-        <Reveal className="mt-8" delay={100}>
-          <div className="max-w-3xl">
-            <p className="kicker">The best of both settings</p>
-            <p className="text-lg text-muted">
-              80 Carlin Rd is a residential address in Conklin without giving up
-              downtown entertainment, Vestal Parkway shopping, Binghamton University,
-              parks, museums, professional sports, restaurants, and outdoor recreation.
-              Room to come home and unwind — with Greater Binghamton in easy reach.
-            </p>
-            <p className="mt-4 text-sm text-muted">
-              {property.schoolDistrict} · Broome County
-            </p>
           </div>
         </Reveal>
       </div>

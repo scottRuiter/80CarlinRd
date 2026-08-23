@@ -476,15 +476,17 @@ export const ctas = {
   sms: `sms:+1${property.contactPhone}`,
 };
 
+/** Order must match the section order in app/page.tsx — the scrollspy reads this list. */
 export const sections = [
   { id: "home", label: "Home" },
   { id: "story", label: "Property" },
   { id: "gallery", label: "Gallery" },
+  { id: "spaces", label: "The Spaces" },
   { id: "features", label: "Features" },
   { id: "explore", label: "Explore the Area" },
-  { id: "faq", label: "Qualifications" },
   { id: "lease", label: "Lease Terms" },
-  { id: "tour", label: "Apply" },
+  { id: "faq", label: "Qualifications" },
+  { id: "tour", label: "Request a Showing" },
 ];
 
 export const stats: {
