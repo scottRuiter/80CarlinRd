@@ -57,15 +57,15 @@ export const property = {
   siteUrl: "https://scottruiter.github.io/80CarlinRd",
   pageTitle: "80 Carlin Rd Conklin NY | 3 Bedroom Home for Rent",
   metaDescription:
-    "Explore 80 Carlin Rd in Conklin, NY — a 3-bedroom, 1.5-bath single-family home with approximately 1,808 sq. ft., an updated sunroom, upgraded electrical service, and a 26 kW Generac standby generator.",
+    "Explore 80 Carlin Rd in Conklin, NY — a 3-bedroom, 1.5-bath home with 1,808 sq. ft., Nest thermostats and zone sensors, Wi-Fi 6, wired Ethernet, PIN side-door entry, and a 26 kW Generac standby generator.",
   socialTitle: "80 Carlin Rd | Conklin, NY",
   socialDescription:
-    "3-bedroom Conklin rental featuring 1,808 sq. ft., an updated sunroom, upgraded electrical service, and a 26 kW Generac whole-home standby generator.",
+    "3-bedroom Conklin rental with Nest zone comfort, Wi-Fi 6 and wired Ethernet, electronic PIN side-door entry, and a 26 kW Generac whole-home standby generator.",
   headline: "80 Carlin Rd — Comfortable 3-Bedroom Home with Whole-Home Backup Power",
   heroSubheadline:
     "3 Bedrooms • 1.5 Bathrooms • 1,808 Sq. Ft. • Susquehanna Valley Central School District",
   shortDescription:
-    "Spacious 3-bedroom, 1.5-bath single-family home offering approximately 1,808 sq. ft. of living space in Conklin, NY. The property features an updated sunroom, upgraded electrical service, and a recently installed 26 kW natural-gas Generac standby generator with automatic transfer switch.",
+    "Spacious 3-bedroom, 1.5-bath single-family home offering approximately 1,808 sq. ft. of living space in Conklin, NY. The property features Nest thermostats with zone sensors on each floor, electronic PIN side-door entry, Wi-Fi 6 and high-speed wired Ethernet, an updated sunroom, upgraded electrical service, and a recently installed 26 kW natural-gas Generac standby generator with automatic transfer switch.",
 };
 
 /** Fill these in later. Empty values are not shown on the site. */
@@ -117,6 +117,9 @@ export const highlights = [
   { label: "Schools", value: "Susquehanna Valley" },
   { label: "Backup power", value: "26 kW Generac" },
   { label: "Sunroom", value: "Updated sunroom" },
+  { label: "Comfort", value: "Nest + zone sensors" },
+  { label: "Access", value: "PIN side-door entry" },
+  { label: "Network", value: "Wi-Fi 6 + Ethernet" },
 ];
 
 export const highlightList = [
@@ -132,6 +135,11 @@ export const highlightList = [
   "Updated electrical service",
   "Updated breaker panel",
   "Updated sunroom",
+  "Individual Nest thermostats",
+  "Zone sensors on each floor",
+  "Electronic PIN side-door entry",
+  "Wi-Fi 6",
+  "High-speed wired Ethernet",
   "New sunroom flooring",
   "Refreshed interior finishes",
   "Additional flexible living space",
@@ -164,6 +172,18 @@ export const featureCards = [
     title: "Yard / outdoor space",
     body: "About 0.39 acres in a residential Conklin setting, with lawn, trees, and room to be outside.",
   },
+  {
+    title: "Nest thermostats + zone sensors",
+    body: "Individual Nest thermostats with zone sensors on each floor, so comfort is set by level instead of one house-wide guess.",
+  },
+  {
+    title: "Electronic PIN side-door entry",
+    body: "Keyless PIN entry at the side door — no hiding a spare key, no waiting if someone is running late.",
+  },
+  {
+    title: "Wi-Fi 6 and wired Ethernet",
+    body: "Wi-Fi 6 throughout plus high-speed Ethernet drops for offices, TVs, and anything that should not share the air.",
+  },
 ];
 
 export const generatorCopy = {
@@ -185,6 +205,21 @@ export const generatorCopy = {
     "No portable generator setup required",
   ],
 };
+
+export const connectedHome = [
+  {
+    title: "Nest, floor by floor",
+    body: "Individual Nest thermostats with zone sensors on each floor. Heat and cool the level you are using, not the whole house at once.",
+  },
+  {
+    title: "PIN side-door entry",
+    body: "Electronic keypad at the side door. Issue a code for showings, guests, or a late night — no spare key under the mat.",
+  },
+  {
+    title: "Wi-Fi 6 + wired Ethernet",
+    body: "Modern wireless for phones and laptops, plus high-speed Ethernet for desks, consoles, and anything that should stay locked on.",
+  },
+];
 
 export const sunroomUses = [
   "Home office",
@@ -238,6 +273,7 @@ export const sections = [
   { id: "story", label: "The home" },
   { id: "gallery", label: "Photos" },
   { id: "power", label: "Power" },
+  { id: "connected", label: "Connected" },
   { id: "spaces", label: "Spaces" },
   { id: "lease", label: "Lease" },
   { id: "location", label: "Location" },
@@ -289,6 +325,18 @@ export const faqs = [
   {
     q: "Is there backup power?",
     a: "Yes. A recently installed 26 kW natural-gas Generac standby generator with automatic transfer switch and an updated electrical panel. It starts on its own during qualifying outages — no portable generator, no extension cords.",
+  },
+  {
+    q: "How is heating and cooling controlled?",
+    a: "Individual Nest thermostats with zone sensors on each floor, so each level can run on its own schedule.",
+  },
+  {
+    q: "Is there keyless entry?",
+    a: "Yes. The side door has electronic PIN entry — no spare key required.",
+  },
+  {
+    q: "How is the internet set up?",
+    a: "The house has Wi-Fi 6 plus high-speed wired Ethernet drops for desks, TVs, and anything that should stay on a cable.",
   },
   {
     q: "What school district is this?",

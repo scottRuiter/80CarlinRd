@@ -11,6 +11,7 @@ import { asset } from "@/lib/asset";
 import {
   ctas,
   fullAddress,
+  connectedHome,
   generatorCopy,
   leaseTerms,
   property,
@@ -20,6 +21,9 @@ import {
 
 const ticker = [
   "26 kW Generac standby",
+  "Nest thermostats + zone sensors",
+  "Electronic PIN side-door entry",
+  "Wi-Fi 6 + wired Ethernet",
   "Automatic transfer switch",
   "Updated electrical panel",
   "Natural gas",
@@ -38,7 +42,7 @@ const pillars = [
   {
     n: "02",
     title: "Room to spread out",
-    body: "Three bedrooms, about 1,808 square feet, a finished lower level, and an updated sunroom that earns its keep.",
+    body: "Three bedrooms, about 1,808 square feet, a finished lower level, Nest comfort by floor, and an updated sunroom that earns its keep.",
   },
   {
     n: "03",
@@ -119,6 +123,10 @@ export default function Home() {
                 ))}
               </div>
             </div>
+
+            <p className="mt-6 max-w-xl text-sm text-muted sm:text-base">
+              Nest zone comfort · PIN side-door entry · Wi-Fi 6 + wired Ethernet
+            </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <a href={ctas.showing} className="btn btn-amber">
@@ -252,6 +260,35 @@ export default function Home() {
             <Reveal delay={120}>
               <BlackoutDemo />
             </Reveal>
+          </div>
+        </section>
+
+        <section id="connected" className="scroll-mt-24 px-5 py-24 sm:px-8">
+          <div className="mx-auto max-w-7xl">
+            <Reveal>
+              <p className="kicker">Connected home</p>
+              <h2 className="display max-w-3xl text-4xl sm:text-6xl">
+                Comfort, access, and bandwidth —{" "}
+                <em className="text-amber">already in the walls</em>.
+              </h2>
+              <p className="mt-5 max-w-2xl text-muted">
+                These are installed, not promised. Nest zoning, a PIN side door,
+                Wi-Fi 6, and high-speed Ethernet are part of the house.
+              </p>
+            </Reveal>
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {connectedHome.map((item, index) => (
+                <Reveal key={item.title} delay={index * 90}>
+                  <article className="glass group h-full p-7 transition duration-500 hover:-translate-y-1 hover:border-amber/40">
+                    <p className="text-xs tracking-[0.2em] text-amber uppercase">
+                      0{index + 1}
+                    </p>
+                    <h3 className="display mt-4 text-3xl">{item.title}</h3>
+                    <p className="mt-4 text-sm leading-6 text-muted">{item.body}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
