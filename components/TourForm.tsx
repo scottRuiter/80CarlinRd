@@ -143,14 +143,7 @@ export function TourForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="glass grid gap-4 p-6 sm:p-8">
-      <div>
-        <h3 className="display text-3xl">Request a showing</h3>
-        <p className="mt-2 text-sm text-muted">
-          Send this to {property.contactName}. Expectation: 3× rent ($7,500/month),
-          650+ credit, and renters insurance.
-        </p>
-      </div>
+    <form onSubmit={onSubmit} className="glass grid gap-5 p-5 sm:p-7">
 
       <input
         type="text"
@@ -164,7 +157,7 @@ export function TourForm() {
       />
 
       <Heading>Contact</Heading>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Field label="Full name" required>
           <input
             required
@@ -228,7 +221,7 @@ export function TourForm() {
       </div>
 
       <Heading>Household</Heading>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Field label="Adults" required>
           <input
             required
@@ -270,7 +263,7 @@ export function TourForm() {
       </div>
 
       <Heading>Qualifications</Heading>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Field label="Monthly household income" required>
           <input
             required
@@ -324,44 +317,47 @@ export function TourForm() {
       </div>
 
       <Heading>Showing</Heading>
-      <Field label="When can you walk through?" required>
-        <input
-          required
-          name="showing"
-          placeholder="Thursday after 5, Saturday morning…"
-          value={values.showing}
-          onChange={update("showing")}
-          className="field"
-        />
-      </Field>
-      <Field label="Anything else we should know?">
-        <textarea
-          name="message"
-          rows={4}
-          placeholder="Questions about the house, pets, schools…"
-          value={values.message}
-          onChange={update("message")}
-          className="field py-3"
-        />
-      </Field>
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <Field label="When can you walk through?" required>
+          <input
+            required
+            name="showing"
+            placeholder="Thursday after 5, Saturday morning…"
+            value={values.showing}
+            onChange={update("showing")}
+            className="field"
+          />
+        </Field>
+        <Field label="Anything else we should know?">
+          <textarea
+            name="message"
+            rows={3}
+            placeholder="Questions about the house, pets, schools…"
+            value={values.message}
+            onChange={update("message")}
+            className="field py-3"
+          />
+        </Field>
+      </div>
 
-      <button type="submit" className="btn btn-amber w-full" disabled={status === "sending"}>
-        {status === "sending" ? "Sending…" : "Send showing request"}
-      </button>
-
-      {status === "error" ? (
-        <p className="text-sm text-ember">
-          That did not go through. Call or text{" "}
-          <a href={`tel:+1${property.contactPhone}`} className="font-semibold underline">
-            {property.contactPhoneLabel}
-          </a>{" "}
-          instead.
-        </p>
-      ) : (
-        <p className="text-xs text-muted">
-          Your details are only used to arrange a showing for this property.
-        </p>
-      )}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        {status === "error" ? (
+          <p className="text-sm text-ember">
+            That did not go through. Call or text{" "}
+            <a href={`tel:+1${property.contactPhone}`} className="font-semibold underline">
+              {property.contactPhoneLabel}
+            </a>{" "}
+            instead.
+          </p>
+        ) : (
+          <p className="text-xs text-muted">
+            Your details are only used to arrange a showing for this property.
+          </p>
+        )}
+        <button type="submit" className="btn btn-amber sm:min-w-56" disabled={status === "sending"}>
+          {status === "sending" ? "Sending…" : "Send showing request"}
+        </button>
+      </div>
     </form>
   );
 }

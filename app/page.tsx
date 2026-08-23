@@ -405,42 +405,46 @@ export default function Home() {
 
         <Faq />
 
-        <section id="tour" className="scroll-mt-24 px-5 pb-24 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+        <section id="tour" className="scroll-mt-24 px-5 pb-24 pt-8 sm:px-8">
+          <div className="mx-auto max-w-7xl">
             <Reveal>
-              <p className="kicker">Book a walkthrough</p>
-              <h2 className="display text-4xl sm:text-6xl">
-                Come see it in <em className="text-amber">person</em>.
-              </h2>
-              <p className="mt-5 max-w-md text-muted">
-                Photos only go so far. Send your details and we will set up a time —
-                evenings and weekends included. Applicants should have 3× income
-                ($7,500/month), a 650+ credit score, and renters insurance.
-              </p>
-
-              <div className="mt-8 grid gap-3">
-                <a href={ctas.tel} className="glass flex items-center justify-between p-5 transition hover:border-amber/50">
-                  <span>
-                    <span className="block text-xs tracking-[0.18em] text-muted uppercase">Call</span>
-                    <span className="display text-2xl">{property.contactPhoneLabel}</span>
-                  </span>
-                  <span className="text-amber">↗</span>
-                </a>
-                <a href={ctas.sms} className="glass flex items-center justify-between p-5 transition hover:border-amber/50">
-                  <span>
-                    <span className="block text-xs tracking-[0.18em] text-muted uppercase">Text</span>
-                    <span className="display text-2xl">{property.contactPhoneLabel}</span>
-                  </span>
-                  <span className="text-amber">↗</span>
-                </a>
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="kicker">Book a walkthrough</p>
+                  <h2 className="display text-4xl sm:text-5xl">
+                    Come see it in <em className="text-amber">person</em>.
+                  </h2>
+                  <p className="mt-4 text-muted">
+                    Evenings and weekends included. Hosted by {property.contactName}.
+                    Expectation: 3× income ($7,500/month), 650+ credit, renters insurance.
+                  </p>
+                </div>
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                  <a
+                    href={ctas.tel}
+                    className="glass flex items-center justify-between gap-6 px-5 py-3 transition hover:border-amber/50"
+                  >
+                    <span>
+                      <span className="block text-[0.65rem] tracking-[0.18em] text-muted uppercase">Call</span>
+                      <span className="display text-xl">{property.contactPhoneLabel}</span>
+                    </span>
+                    <span className="text-amber">↗</span>
+                  </a>
+                  <a
+                    href={ctas.sms}
+                    className="glass flex items-center justify-between gap-6 px-5 py-3 transition hover:border-amber/50"
+                  >
+                    <span>
+                      <span className="block text-[0.65rem] tracking-[0.18em] text-muted uppercase">Text</span>
+                      <span className="display text-xl">{property.contactPhoneLabel}</span>
+                    </span>
+                    <span className="text-amber">↗</span>
+                  </a>
+                </div>
               </div>
-
-              <p className="mt-6 text-sm text-muted">
-                Showings hosted by {property.contactName}.
-              </p>
             </Reveal>
 
-            <Reveal delay={110}>
+            <Reveal className="mt-10" delay={80}>
               <TourForm />
             </Reveal>
           </div>
