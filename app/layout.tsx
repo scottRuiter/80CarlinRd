@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: property.heroImage,
+        url: property.ogImage,
         alt: `Front of ${fullAddress}`,
       },
     ],
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: property.socialTitle,
     description: property.socialDescription,
-    images: [property.heroImage],
+    images: [property.ogImage],
   },
   icons: {
     icon: asset("/mark.svg"),
@@ -52,7 +52,7 @@ const listingJsonLd = {
   "@type": "SingleFamilyResidence",
   name: property.headline,
   url: property.siteUrl,
-  image: `${property.siteUrl}${property.heroImage}`,
+  image: `${property.siteUrl}${property.ogImage}`,
   address: {
     "@type": "PostalAddress",
     streetAddress: property.addressLine,

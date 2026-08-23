@@ -20,6 +20,14 @@ pending.availableDate: "September 1, 2026",
 
 Leave `contactEmail` and `contactPhone` empty unless you want a dedicated rental inbox in the built JavaScript.
 
+To receive showing requests on the website form, add a free [Web3Forms](https://web3forms.com) key:
+
+```ts
+web3formsKey: "your-access-key",
+```
+
+Until then, the form copies the renter's request and opens the Zillow listing.
+
 ## Local development
 
 ```bash

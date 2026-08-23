@@ -1,5 +1,6 @@
+import { CtaLink } from "@/components/CtaLink";
 import { ShowingButton } from "@/components/ShowingButton";
-import { rentLabel } from "@/lib/property";
+import { ctas, rentLabel } from "@/lib/property";
 
 export function StickyCta() {
   return (
@@ -7,7 +8,9 @@ export function StickyCta() {
       <div className="mx-auto flex max-w-lg items-center gap-3">
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-ink">{rentLabel}</p>
-          <p className="truncate text-xs text-muted">3 Beds • 1.5 Baths • 1,808 Sq. Ft.</p>
+          <CtaLink href={ctas.gallery} className="text-xs font-semibold text-brick">
+            View photos
+          </CtaLink>
         </div>
         <ShowingButton className="btn-primary shrink-0 px-4" />
       </div>

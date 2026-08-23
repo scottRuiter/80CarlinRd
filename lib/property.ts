@@ -1,7 +1,18 @@
+export type PhotoCategory =
+  | "exterior"
+  | "living"
+  | "kitchen"
+  | "bedroom"
+  | "bath"
+  | "lower"
+  | "power"
+  | "yard";
+
 export type Photo = {
   src: string;
   alt: string;
   caption: string;
+  category: PhotoCategory;
 };
 
 /**
@@ -39,7 +50,9 @@ export const property = {
   infoHref: "",
   contactEmail: "",
   contactPhone: "",
-  heroImage: "/images/front.png",
+  heroImage: "/images/front.jpg",
+  ogImage: "/images/og.jpg",
+  web3formsKey: "",
   mapEmbedUrl:
     "https://maps.google.com/maps?q=80%20Carlin%20Rd%2C%20Conklin%2C%20NY%2013748&z=15&output=embed",
   mapLink:
@@ -227,34 +240,85 @@ export const ctas = {
   zillow: property.zillowUrl,
 };
 
+export const galleryFilters: { id: "all" | PhotoCategory; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "exterior", label: "Exterior" },
+  { id: "living", label: "Living" },
+  { id: "kitchen", label: "Kitchen" },
+  { id: "bedroom", label: "Bedrooms" },
+  { id: "bath", label: "Baths" },
+  { id: "lower", label: "Lower level" },
+  { id: "power", label: "Power" },
+  { id: "yard", label: "Yard" },
+];
+
+export const featuredPhotos = [
+  "/images/front.jpg",
+  "/images/kitchen.jpg",
+  "/images/living-room.jpg",
+  "/images/backyard.jpg",
+  "/images/generac.jpg",
+];
+
+export const faqs = [
+  {
+    q: "What is the monthly rent?",
+    a: "The asking rent is $2,500 per month.",
+  },
+  {
+    q: "How large is the home?",
+    a: "Three bedrooms, 1 full bath and 1 half bath, and about 1,808 square feet on roughly 0.39 acres.",
+  },
+  {
+    q: "Is there backup power?",
+    a: "Yes. A recently installed 26 kW natural-gas Generac standby generator with automatic transfer switch and an updated electrical panel. It starts on its own during qualifying outages — no portable generator, no extension cords.",
+  },
+  {
+    q: "What school district is this?",
+    a: "Susquehanna Valley Central School District, in Conklin, Broome County.",
+  },
+  {
+    q: "Who pays utilities?",
+    a: "The tenant pays applicable utilities, including electricity, natural gas, water/sewer, internet, cable, and other individually contracted services.",
+  },
+  {
+    q: "Are pets allowed?",
+    a: "Pets may be considered with owner approval and are subject to the lease and any pet terms.",
+  },
+  {
+    q: "What are the lease basics?",
+    a: "A 12-month lease is preferred. No smoking or vaping inside the home. Renters insurance is required. Deposit, pet terms, and remaining conditions are confirmed in the signed lease.",
+  },
+];
+
 export const gallery: Photo[] = [
-  { src: "/images/front.png", alt: "Front of 80 Carlin Rd", caption: "Main exterior" },
-  { src: "/images/front-lawn.png", alt: "Front lawn, lamp post, and driveway", caption: "Alternate exterior" },
-  { src: "/images/living-room.png", alt: "Living room", caption: "Living room" },
-  { src: "/images/living-room-2.png", alt: "Living room seating", caption: "Living room" },
-  { src: "/images/kitchen.png", alt: "Updated kitchen with island", caption: "Kitchen" },
-  { src: "/images/kitchen-island.png", alt: "Kitchen island and stainless appliances", caption: "Kitchen" },
-  { src: "/images/kitchen-from-side.png", alt: "Kitchen looking toward dining and living areas", caption: "Dining area" },
-  { src: "/images/bedroom-middle.png", alt: "Bedroom", caption: "Bedroom" },
-  { src: "/images/bedroom-back-left.png", alt: "Bedroom", caption: "Bedroom" },
-  { src: "/images/bedroom-back-right.png", alt: "Bedroom", caption: "Bedroom" },
-  { src: "/images/hallway.png", alt: "Bedroom hallway", caption: "Hallway" },
-  { src: "/images/bathroom.png", alt: "Full bathroom with tub and vanity", caption: "Full bathroom" },
-  { src: "/images/bathroom-2.png", alt: "Full bathroom vanity and tub", caption: "Full bathroom" },
-  { src: "/images/bathroom-3.png", alt: "Full bathroom detail", caption: "Full bathroom" },
-  { src: "/images/basement-bathroom.png", alt: "Half bathroom", caption: "Half bathroom" },
-  { src: "/images/stairway.png", alt: "Stairway", caption: "Stairway" },
-  { src: "/images/tile.png", alt: "Finished lower-level living space", caption: "Lower-level space" },
-  { src: "/images/basement.png", alt: "Lower-level room", caption: "Lower-level space" },
-  { src: "/images/basement-2.png", alt: "Lower-level flexible space", caption: "Lower-level space" },
-  { src: "/images/basement-3.png", alt: "Lower-level area", caption: "Lower-level space" },
-  { src: "/images/laundry.png", alt: "Laundry area", caption: "Laundry" },
-  { src: "/images/laundry-2.png", alt: "Laundry area storage", caption: "Laundry" },
-  { src: "/images/backyard.png", alt: "Backyard lawn and shed", caption: "Backyard" },
-  { src: "/images/backyard-2.png", alt: "Backyard", caption: "Rear exterior" },
-  { src: "/images/backyard-3.jpg", alt: "Side and rear yard", caption: "Side yard" },
-  { src: "/images/shed.jpg", alt: "Outdoor storage shed", caption: "Shed" },
-  { src: "/images/generac.jpg", alt: "26 kW Generac standby generator", caption: "Generac" },
-  { src: "/images/generac-2.jpg", alt: "Generac generator installation", caption: "Generac" },
-  { src: "/images/electrical-panel.jpg", alt: "Updated electrical panel and transfer switch", caption: "Electrical panel" },
+  { src: "/images/front.jpg", alt: "Front of 80 Carlin Rd", caption: "Main exterior", category: "exterior" },
+  { src: "/images/front-lawn.jpg", alt: "Front lawn, lamp post, and driveway", caption: "Alternate exterior", category: "exterior" },
+  { src: "/images/living-room.jpg", alt: "Living room", caption: "Living room", category: "living" },
+  { src: "/images/living-room-2.jpg", alt: "Living room seating", caption: "Living room", category: "living" },
+  { src: "/images/kitchen.jpg", alt: "Updated kitchen with island", caption: "Kitchen", category: "kitchen" },
+  { src: "/images/kitchen-island.jpg", alt: "Kitchen island and stainless appliances", caption: "Kitchen", category: "kitchen" },
+  { src: "/images/kitchen-from-side.jpg", alt: "Kitchen looking toward dining and living areas", caption: "Dining area", category: "kitchen" },
+  { src: "/images/bedroom-middle.jpg", alt: "Bedroom", caption: "Bedroom", category: "bedroom" },
+  { src: "/images/bedroom-back-left.jpg", alt: "Bedroom", caption: "Bedroom", category: "bedroom" },
+  { src: "/images/bedroom-back-right.jpg", alt: "Bedroom", caption: "Bedroom", category: "bedroom" },
+  { src: "/images/hallway.jpg", alt: "Bedroom hallway", caption: "Hallway", category: "bedroom" },
+  { src: "/images/bathroom.jpg", alt: "Full bathroom with tub and vanity", caption: "Full bathroom", category: "bath" },
+  { src: "/images/bathroom-2.jpg", alt: "Full bathroom vanity and tub", caption: "Full bathroom", category: "bath" },
+  { src: "/images/bathroom-3.jpg", alt: "Full bathroom detail", caption: "Full bathroom", category: "bath" },
+  { src: "/images/basement-bathroom.jpg", alt: "Half bathroom", caption: "Half bathroom", category: "bath" },
+  { src: "/images/stairway.jpg", alt: "Stairway", caption: "Stairway", category: "lower" },
+  { src: "/images/tile.jpg", alt: "Finished lower-level living space", caption: "Lower-level space", category: "lower" },
+  { src: "/images/basement.jpg", alt: "Lower-level room", caption: "Lower-level space", category: "lower" },
+  { src: "/images/basement-2.jpg", alt: "Lower-level flexible space", caption: "Lower-level space", category: "lower" },
+  { src: "/images/basement-3.jpg", alt: "Lower-level area", caption: "Lower-level space", category: "lower" },
+  { src: "/images/laundry.jpg", alt: "Laundry area", caption: "Laundry", category: "lower" },
+  { src: "/images/laundry-2.jpg", alt: "Laundry area storage", caption: "Laundry", category: "lower" },
+  { src: "/images/backyard.jpg", alt: "Backyard lawn and shed", caption: "Backyard", category: "yard" },
+  { src: "/images/backyard-2.jpg", alt: "Backyard", caption: "Rear exterior", category: "yard" },
+  { src: "/images/backyard-3.jpg", alt: "Side and rear yard", caption: "Side yard", category: "yard" },
+  { src: "/images/shed.jpg", alt: "Outdoor storage shed", caption: "Shed", category: "yard" },
+  { src: "/images/generac.jpg", alt: "26 kW Generac standby generator", caption: "Generac", category: "power" },
+  { src: "/images/generac-2.jpg", alt: "Generac generator installation", caption: "Generac", category: "power" },
+  { src: "/images/electrical-panel.jpg", alt: "Updated electrical panel and transfer switch", caption: "Electrical panel", category: "power" },
 ];
