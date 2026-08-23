@@ -97,7 +97,7 @@ export function ExploreArea() {
         </Reveal>
 
         <div ref={rail} className="rail mt-6">
-          {places.map((place) => {
+          {places.map((place, index) => {
             const active = selected === place.name;
             return (
               <button
@@ -108,7 +108,10 @@ export function ExploreArea() {
                   active ? "border-amber/70" : ""
                 }`}
               >
-                <p className="text-xs tracking-[0.18em] text-amber uppercase">
+                <p className="flex items-center gap-2 text-xs tracking-[0.18em] text-amber uppercase">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-fog text-[0.7rem] font-bold tracking-normal text-night">
+                    {index + 1}
+                  </span>
                   {areaCategories.find((item) => item.id === place.category)?.label}
                 </p>
                 <h3 className="display mt-2 text-2xl">{place.name}</h3>
@@ -144,8 +147,7 @@ export function ExploreArea() {
                 </>
               ) : (
                 <>
-                  Amber pin is 80 Carlin Rd. White pins are{" "}
-                  {filter === "all" ? "places around Greater Binghamton" : `${filter} nearby`}.
+                  Amber pin is 80 Carlin Rd. Numbered pins match the cards.
                 </>
               )}
             </p>

@@ -29,20 +29,14 @@ function formatMiles(miles: number) {
   return miles < 10 ? `${miles.toFixed(1)} miles` : `${Math.round(miles)} miles`;
 }
 
-function pinIcon(L: Leaflet, kind: "home" | "place" | "active") {
-  if (kind === "home") {
-    return L.divIcon({
-      className: "map-pin-wrap",
-      html: `<div class="map-pin map-pin-home" title="${fullAddress}"><span>80</span></div>`,
-      iconSize: [36, 36],
-      iconAnchor: [18, 18],
-    });
-  }
+function pinIcon(L: Leaflet, kind: "home" | "place" | "active", label: string) {
+  const size = kind === "home" ? 40 : 32;
   return L.divIcon({
     className: "map-pin-wrap",
-    html: `<div class="map-pin ${kind === "active" ? "map-pin-active" : "map-pin-place"}"></div>`,
-    iconSize: [18, 18],
-    iconAnchor: [9, 9],
+    html: `<div class="map-pin map-pin-${kind}" title="${label}"><span>${kind === "home" ? "80" : label}</span></div>`,
+    iconSize: [size, Math.round(size * 1.25)],
+    iconAnchor: [size / 2, Math.round(size * 1.2)],
+    popupAnchor: [0, -size],
   });
 }
 
@@ -83,7 +77,7 @@ export function AreaMap({ places, selected, onSelect }: Props) {
       }).addTo(map);
 
       L.marker([homeCoords.lat, homeCoords.lng], {
-        icon: pinIcon(L, "home"),
+        icon: pinIcon(L, "home", "80 Carlin Rd"),
         zIndexOffset: 400,
       })
         .bindPopup(`<strong>80 Carlin Rd</strong><br/>Home base`)
@@ -124,16 +118,17 @@ export function AreaMap({ places, selected, onSelect }: Props) {
     const plotted = new Set<string>();
     let selectedPlace: Place | undefined;
 
-    for (const place of nextPlaces) {
+    nextPlaces.forEach((place, index) => {
       if (place.name === nextSelected) selectedPlace = place;
       const key = `${place.lat.toFixed(5)},${place.lng.toFixed(5)}`;
-      if (plotted.has(key) && place.name !== nextSelected) continue;
+      if (plotted.has(key) && place.name !== nextSelected) return;
       plotted.add(key);
 
       const miles = milesBetween(homeCoords, place);
       const active = place.name === nextSelected;
+      const number = String(index + 1);
       const marker = L.marker([place.lat, place.lng], {
-        icon: pinIcon(L, active ? "active" : "place"),
+        icon: pinIcon(L, active ? "active" : "place", number),
         zIndexOffset: active ? 300 : 200,
       })
         .bindPopup(
@@ -142,7 +137,7 @@ export function AreaMap({ places, selected, onSelect }: Props) {
         .on("click", () => onSelectRef.current(place.name));
       marker.addTo(overlay);
       if (active) marker.openPopup();
-    }
+    });
 
     if (selectedPlace) {
       L.polyline(
