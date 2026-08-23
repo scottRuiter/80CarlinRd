@@ -241,31 +241,31 @@ select.field option {
 }
 
 .area-map .leaflet-control-attribution {
-  background: rgba(7, 9, 13, 0.72);
-  color: var(--muted);
+  background: rgba(255, 255, 255, 0.82);
+  color: #5b6470;
 }
 
 .area-map .leaflet-control-attribution a {
-  color: var(--fog);
+  color: #1f2937;
 }
 
 .area-map .leaflet-bar a {
-  background: var(--night-2);
-  color: var(--fog);
-  border-bottom-color: var(--line);
+  background: #fff;
+  color: #1f2937;
+  border-bottom-color: #d7dce3;
 }
 
 .area-map .leaflet-bar a:hover {
-  background: var(--night-3);
-  color: var(--amber);
+  background: #f4f6f8;
+  color: #b45309;
 }
 
 .area-map .leaflet-popup-content-wrapper,
 .area-map .leaflet-popup-tip {
-  background: var(--night-2);
-  color: var(--fog);
-  border: 1px solid var(--line);
-  box-shadow: none;
+  background: #fff;
+  color: #1f2937;
+  border: 1px solid #d7dce3;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .map-pin-wrap {
@@ -277,7 +277,7 @@ select.field option {
   width: 100%;
   height: 100%;
   border-radius: 999px;
-  box-shadow: 0 0 0 3px rgba(7, 9, 13, 0.55);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
 .map-pin-home {
