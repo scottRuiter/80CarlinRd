@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
-import { AreaMap, directionsLink, placeMiles } from "@/components/AreaMap";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AreaMap, directionsLink } from "@/components/AreaMap";
 import { Reveal } from "@/components/Reveal";
 import {
   areaCategories,
@@ -11,12 +11,28 @@ import {
   property,
   type AreaCategory,
 } from "@/lib/property";
+import { formatDrive, loadDriveTable, type DriveInfo } from "@/lib/routing";
 
 export function ExploreArea() {
   const [filter, setFilter] = useState<"all" | AreaCategory>("all");
   const [selected, setSelected] = useState("");
+  const [drives, setDrives] = useState<Record<string, DriveInfo>>({});
   const rail = useRef<HTMLDivElement>(null);
   const mapPanel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void loadDriveTable(areaPlaces)
+      .then((table) => {
+        if (!cancelled) setDrives(table);
+      })
+      .catch(() => {
+        /* Cards keep a quiet fallback until routing answers. */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const places = useMemo(
     () => (filter === "all" ? areaPlaces : areaPlaces.filter((place) => place.category === filter)),
@@ -116,9 +132,9 @@ export function ExploreArea() {
                 </p>
                 <h3 className="display mt-2 text-2xl">{place.name}</h3>
                 <p className="mt-1 text-xs text-amber">
-                  {placeMiles(place) < 10
-                    ? `${placeMiles(place).toFixed(1)} miles from the house`
-                    : `${Math.round(placeMiles(place))} miles from the house`}
+                  {drives[place.name]
+                    ? formatDrive(drives[place.name])
+                    : "Drive time loading…"}
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted">{place.blurb}</p>
               </button>
@@ -130,7 +146,12 @@ export function ExploreArea() {
 
         <div ref={mapPanel} className="mt-8 scroll-mt-24">
           <div className="overflow-hidden rounded-3xl border border-line">
-            <AreaMap places={places} selected={selected} onSelect={choose} />
+            <AreaMap
+              places={places}
+              selected={selected}
+              drives={drives}
+              onSelect={choose}
+            />
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
             <p className="text-muted">
@@ -139,11 +160,9 @@ export function ExploreArea() {
                   <span className="text-amber">80 Carlin Rd</span>
                   {" → "}
                   {activePlace.name}
-                  {` · ${
-                    placeMiles(activePlace) < 10
-                      ? `${placeMiles(activePlace).toFixed(1)} miles`
-                      : `${Math.round(placeMiles(activePlace))} miles`
-                  }`}
+                  {drives[activePlace.name]
+                    ? ` · ${formatDrive(drives[activePlace.name])}`
+                    : ""}
                 </>
               ) : (
                 <>

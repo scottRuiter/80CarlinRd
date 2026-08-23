@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import { fullAddress, homeCoords, type areaPlaces } from "@/lib/property";
+import { formatDrive, loadDriveRoute, type DriveInfo } from "@/lib/routing";
 
 type Place = (typeof areaPlaces)[number];
 type Leaflet = typeof import("leaflet");
@@ -10,24 +11,9 @@ type Leaflet = typeof import("leaflet");
 type Props = {
   places: Place[];
   selected: string;
+  drives: Record<string, DriveInfo>;
   onSelect: (name: string) => void;
 };
-
-function milesBetween(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
-  const toRad = (value: number) => (value * Math.PI) / 180;
-  const dLat = toRad(b.lat - a.lat);
-  const dLng = toRad(b.lng - a.lng);
-  const lat1 = toRad(a.lat);
-  const lat2 = toRad(b.lat);
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
-  return 3958.8 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
-}
-
-function formatMiles(miles: number) {
-  return miles < 10 ? `${miles.toFixed(1)} miles` : `${Math.round(miles)} miles`;
-}
 
 function pinIcon(L: Leaflet, kind: "home" | "place" | "active", label: string) {
   const size = kind === "home" ? 40 : 32;
@@ -40,22 +26,28 @@ function pinIcon(L: Leaflet, kind: "home" | "place" | "active", label: string) {
   });
 }
 
-export function AreaMap({ places, selected, onSelect }: Props) {
+function driveLabel(place: Place, drives: Record<string, DriveInfo>) {
+  const info = drives[place.name];
+  return info ? formatDrive(info) : "Drive from 80 Carlin Rd";
+}
+
+export function AreaMap({ places, selected, drives, onSelect }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const onSelectRef = useRef(onSelect);
   const mapRef = useRef<import("leaflet").Map | null>(null);
-  const overlayRef = useRef<import("leaflet").LayerGroup | null>(null);
+  const pinsRef = useRef<import("leaflet").LayerGroup | null>(null);
+  const routeRef = useRef<import("leaflet").LayerGroup | null>(null);
   const leafletRef = useRef<Leaflet | null>(null);
   const placesRef = useRef(places);
   const selectedRef = useRef(selected);
+  const drivesRef = useRef(drives);
 
   onSelectRef.current = onSelect;
   placesRef.current = places;
   selectedRef.current = selected;
+  drivesRef.current = drives;
 
   useEffect(() => {
-    const node = host.current;
-    if (!node) return;
     let cancelled = false;
 
     void import("leaflet").then((mod) => {
@@ -83,10 +75,12 @@ export function AreaMap({ places, selected, onSelect }: Props) {
         .bindPopup(`<strong>80 Carlin Rd</strong><br/>Home base`)
         .addTo(map);
 
-      const overlay = L.layerGroup().addTo(map);
+      const pins = L.layerGroup().addTo(map);
+      const route = L.layerGroup().addTo(map);
       mapRef.current = map;
-      overlayRef.current = overlay;
-      drawOverlay(L, map, overlay, placesRef.current, selectedRef.current);
+      pinsRef.current = pins;
+      routeRef.current = route;
+      drawPins(L, pins, placesRef.current, selectedRef.current, drivesRef.current);
       map.invalidateSize();
     });
 
@@ -94,73 +88,92 @@ export function AreaMap({ places, selected, onSelect }: Props) {
       cancelled = true;
       mapRef.current?.remove();
       mapRef.current = null;
-      overlayRef.current = null;
+      pinsRef.current = null;
+      routeRef.current = null;
     };
   }, []);
 
   useEffect(() => {
     const L = leafletRef.current;
+    const pins = pinsRef.current;
+    if (!L || !pins) return;
+    drawPins(L, pins, places, selected, drives);
+  }, [places, selected, drives]);
+
+  useEffect(() => {
+    const L = leafletRef.current;
     const map = mapRef.current;
-    const overlay = overlayRef.current;
-    if (!L || !map || !overlay) return;
-    drawOverlay(L, map, overlay, places, selected);
+    const routeLayer = routeRef.current;
+    if (!L || !map || !routeLayer) return;
+
+    routeLayer.clearLayers();
+    const selectedPlace = places.find((place) => place.name === selected);
+    if (!selectedPlace) {
+      const bounds = L.latLngBounds([[homeCoords.lat, homeCoords.lng]]);
+      for (const place of places) bounds.extend([place.lat, place.lng]);
+      map.fitBounds(bounds, { padding: [36, 36], maxZoom: 12 });
+      return;
+    }
+
+    let cancelled = false;
+    void loadDriveRoute(selectedPlace)
+      .then((route) => {
+        if (cancelled || !routeLayer || !mapRef.current) return;
+        const line = L.polyline(route.path, {
+          color: "#c2410c",
+          weight: 5,
+          opacity: 0.92,
+        }).addTo(routeLayer);
+        map.flyToBounds(line.getBounds(), { padding: [48, 48], maxZoom: 13, duration: 0.7 });
+      })
+      .catch(() => {
+        if (cancelled || !routeLayer || !mapRef.current) return;
+        L.polyline(
+          [
+            [homeCoords.lat, homeCoords.lng],
+            [selectedPlace.lat, selectedPlace.lng],
+          ],
+          { color: "#c2410c", weight: 4, opacity: 0.7, dashArray: "6 8" },
+        ).addTo(routeLayer);
+        map.flyToBounds(
+          [
+            [homeCoords.lat, homeCoords.lng],
+            [selectedPlace.lat, selectedPlace.lng],
+          ],
+          { padding: [64, 64], maxZoom: 13, duration: 0.7 },
+        );
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [places, selected]);
 
-  function drawOverlay(
+  function drawPins(
     L: Leaflet,
-    map: import("leaflet").Map,
-    overlay: import("leaflet").LayerGroup,
+    pins: import("leaflet").LayerGroup,
     nextPlaces: Place[],
     nextSelected: string,
+    nextDrives: Record<string, DriveInfo>,
   ) {
-    overlay.clearLayers();
-
+    pins.clearLayers();
     const plotted = new Set<string>();
-    let selectedPlace: Place | undefined;
 
     nextPlaces.forEach((place, index) => {
-      if (place.name === nextSelected) selectedPlace = place;
       const key = `${place.lat.toFixed(5)},${place.lng.toFixed(5)}`;
       if (plotted.has(key) && place.name !== nextSelected) return;
       plotted.add(key);
 
-      const miles = milesBetween(homeCoords, place);
       const active = place.name === nextSelected;
-      const number = String(index + 1);
       const marker = L.marker([place.lat, place.lng], {
-        icon: pinIcon(L, active ? "active" : "place", number),
+        icon: pinIcon(L, active ? "active" : "place", String(index + 1)),
         zIndexOffset: active ? 300 : 200,
       })
-        .bindPopup(
-          `<strong>${place.name}</strong><br/>${formatMiles(miles)} from 80 Carlin Rd`,
-        )
+        .bindPopup(`<strong>${place.name}</strong><br/>${driveLabel(place, nextDrives)}`)
         .on("click", () => onSelectRef.current(place.name));
-      marker.addTo(overlay);
+      marker.addTo(pins);
       if (active) marker.openPopup();
     });
-
-    if (selectedPlace) {
-      L.polyline(
-        [
-          [homeCoords.lat, homeCoords.lng],
-          [selectedPlace.lat, selectedPlace.lng],
-        ],
-        { color: "#f2a63b", weight: 3, opacity: 0.95 },
-      ).addTo(overlay);
-
-      map.flyToBounds(
-        [
-          [homeCoords.lat, homeCoords.lng],
-          [selectedPlace.lat, selectedPlace.lng],
-        ],
-        { padding: [64, 64], maxZoom: 13, duration: 0.7 },
-      );
-      return;
-    }
-
-    const bounds = L.latLngBounds([[homeCoords.lat, homeCoords.lng]]);
-    for (const place of nextPlaces) bounds.extend([place.lat, place.lng]);
-    map.fitBounds(bounds, { padding: [36, 36], maxZoom: 12 });
   }
 
   return <div ref={host} className="area-map h-[340px] w-full sm:h-[460px]" />;
@@ -170,8 +183,4 @@ export function directionsLink(destination: string) {
   const origin = encodeURIComponent(fullAddress);
   const dest = encodeURIComponent(destination);
   return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}`;
-}
-
-export function placeMiles(place: Place) {
-  return milesBetween(homeCoords, place);
 }
