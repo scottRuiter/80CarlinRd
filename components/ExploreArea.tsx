@@ -69,50 +69,48 @@ export function ExploreArea() {
         </Reveal>
 
         <Reveal className="mt-10" delay={60}>
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="rail flex-1">
-              {areaCategories.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => {
-                    setFilter(item.id);
-                    if (item.id === "all") setSelected("");
-                    rail.current?.scrollTo({ left: 0, behavior: "smooth" });
-                  }}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-                    filter === item.id
-                      ? "border-amber bg-amber text-[#14100a]"
-                      : "border-line text-muted hover:border-white/40 hover:text-fog"
-                  }`}
-                >
-                  {item.icon} {item.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="hidden shrink-0 items-center gap-2 lg:flex">
+          <div className="flex flex-wrap gap-2">
+            {areaCategories.map((item) => (
               <button
+                key={item.id}
                 type="button"
-                onClick={() => scrollRail(-1)}
-                aria-label="Scroll places left"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-fog transition hover:border-amber hover:text-amber"
+                onClick={() => {
+                  setFilter(item.id);
+                  if (item.id === "all") setSelected("");
+                  rail.current?.scrollTo({ left: 0, behavior: "smooth" });
+                }}
+                className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                  filter === item.id
+                    ? "border-amber bg-amber text-[#14100a]"
+                    : "border-line text-muted hover:border-white/40 hover:text-fog"
+                }`}
               >
-                ←
+                {item.icon} {item.label}
               </button>
-              <button
-                type="button"
-                onClick={() => scrollRail(1)}
-                aria-label="Scroll places right"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-fog transition hover:border-amber hover:text-amber"
-              >
-                →
-              </button>
-            </div>
+            ))}
           </div>
         </Reveal>
 
-        <div ref={rail} className="rail mt-6">
+        <div className="mt-6 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => scrollRail(-1)}
+            aria-label="Scroll places left"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-fog transition hover:border-amber hover:text-amber"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollRail(1)}
+            aria-label="Scroll places right"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-fog transition hover:border-amber hover:text-amber"
+          >
+            →
+          </button>
+        </div>
+
+        <div ref={rail} className="rail rail-quiet mt-3">
           {places.map((place, index) => {
             const active = selected === place.name;
             return (
@@ -141,8 +139,6 @@ export function ExploreArea() {
             );
           })}
         </div>
-
-        <p className="mt-1 text-xs text-muted lg:hidden">Swipe for more places →</p>
 
         <div ref={mapPanel} className="mt-8 scroll-mt-24">
           <div className="overflow-hidden rounded-3xl border border-line">
