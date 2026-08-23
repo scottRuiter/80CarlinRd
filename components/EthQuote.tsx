@@ -1,36 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { property } from "@/lib/property";
 
 type Quote = {
-  usdPerEth: number;
+  ethUsd: number;
+  btcUsd: number;
   fetchedAt: number;
 };
 
-async function fetchSpot(): Promise<number> {
-  const coinbase = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot");
-  if (coinbase.ok) {
-    const body = (await coinbase.json()) as { data?: { amount?: string } };
-    const amount = Number(body.data?.amount);
-    if (Number.isFinite(amount) && amount > 0) return amount;
-  }
+const PRICE_PAGES = {
+  eth: "https://www.coinbase.com/price/ethereum",
+  btc: "https://www.coinbase.com/price/bitcoin",
+};
+
+async function fetchSpots(): Promise<Pick<Quote, "ethUsd" | "btcUsd">> {
+  const [ethRes, btcRes] = await Promise.all([
+    fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot"),
+    fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot"),
+  ]);
+
+  const readCoinbase = async (response: Response) => {
+    if (!response.ok) return NaN;
+    const body = (await response.json()) as { data?: { amount?: string } };
+    return Number(body.data?.amount);
+  };
+
+  let ethUsd = await readCoinbase(ethRes);
+  let btcUsd = await readCoinbase(btcRes);
+
+  if (ethUsd > 0 && btcUsd > 0) return { ethUsd, btcUsd };
 
   const gecko = await fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin&vs_currencies=usd",
   );
-  if (!gecko.ok) throw new Error("ETH quote failed");
-  const body = (await gecko.json()) as { ethereum?: { usd?: number } };
-  const amount = Number(body.ethereum?.usd);
-  if (!Number.isFinite(amount) || amount <= 0) throw new Error("ETH quote empty");
-  return amount;
+  if (!gecko.ok) throw new Error("Crypto quote failed");
+  const body = (await gecko.json()) as {
+    ethereum?: { usd?: number };
+    bitcoin?: { usd?: number };
+  };
+  if (!(ethUsd > 0)) ethUsd = Number(body.ethereum?.usd);
+  if (!(btcUsd > 0)) btcUsd = Number(body.bitcoin?.usd);
+  if (!(ethUsd > 0) || !(btcUsd > 0)) throw new Error("Crypto quote empty");
+  return { ethUsd, btcUsd };
 }
 
-function formatEth(usd: number, usdPerEth: number) {
-  const eth = usd / usdPerEth;
-  if (eth >= 10) return eth.toFixed(2);
-  if (eth >= 1) return eth.toFixed(3);
-  return eth.toFixed(4);
+function formatCoin(usd: number, usdPerCoin: number) {
+  const amount = usd / usdPerCoin;
+  if (amount >= 10) return amount.toFixed(2);
+  if (amount >= 1) return amount.toFixed(3);
+  if (amount >= 0.1) return amount.toFixed(4);
+  return amount.toFixed(5);
 }
 
 function formatUsd(amount: number) {
@@ -39,6 +59,25 @@ function formatUsd(amount: number) {
     currency: "USD",
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+function PriceLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-amber underline-offset-4 transition hover:underline"
+    >
+      {children}
+    </a>
+  );
 }
 
 export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
@@ -50,9 +89,9 @@ export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
 
     async function load() {
       try {
-        const usdPerEth = await fetchSpot();
+        const spots = await fetchSpots();
         if (!cancelled) {
-          setQuote({ usdPerEth, fetchedAt: Date.now() });
+          setQuote({ ...spots, fetchedAt: Date.now() });
           setFailed(false);
         }
       } catch {
@@ -71,16 +110,17 @@ export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
   if (failed && !quote) {
     return (
       <p className="mt-2 text-sm text-muted">
-        ETH quote unavailable — rent is {property.rent} in USD.
+        Live crypto quote unavailable — rent is {property.rent} in USD.
       </p>
     );
   }
 
   if (!quote) {
-    return <p className="mt-2 text-sm text-muted">Fetching live ETH quote…</p>;
+    return <p className="mt-2 text-sm text-muted">Fetching live ETH and BTC quotes…</p>;
   }
 
-  const eth = formatEth(property.rentAmount, quote.usdPerEth);
+  const eth = formatCoin(property.rentAmount, quote.ethUsd);
+  const btc = formatCoin(property.rentAmount, quote.btcUsd);
   const stamp = new Date(quote.fetchedAt).toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
@@ -88,22 +128,27 @@ export function EthQuote({ variant = "hero" }: { variant?: "hero" | "lease" }) {
 
   if (variant === "lease") {
     return (
-      <p className="mt-4 max-w-md text-lg text-amber">
-        {eth} ETH / month
-        <span className="mt-1 block text-sm text-muted">
-          Live quote · ETH {formatUsd(quote.usdPerEth)} · {stamp}. Asking rent is
-          still $2,500 USD.
-        </span>
-      </p>
+      <div className="mt-4 max-w-md text-lg">
+        <p>
+          <PriceLink href={PRICE_PAGES.eth}>{eth} ETH</PriceLink>
+          <span className="text-muted"> / month</span>
+          <span className="text-muted"> · </span>
+          <PriceLink href={PRICE_PAGES.btc}>{btc} BTC</PriceLink>
+        </p>
+        <p className="mt-1 text-sm text-muted">
+          Live · ETH {formatUsd(quote.ethUsd)} · BTC {formatUsd(quote.btcUsd)} · {stamp}.
+          Asking rent is still $2,500 USD.
+        </p>
+      </div>
     );
   }
 
   return (
-    <p className="mt-2 text-sm text-amber sm:text-base">
-      {eth} ETH
-      <span className="ml-2 text-muted">
-        live · {formatUsd(quote.usdPerEth)}/ETH · {stamp}
-      </span>
+    <p className="mt-2 text-sm sm:text-base">
+      <PriceLink href={PRICE_PAGES.eth}>{eth} ETH</PriceLink>
+      <span className="text-muted"> · </span>
+      <PriceLink href={PRICE_PAGES.btc}>{btc} BTC</PriceLink>
+      <span className="ml-2 text-muted">live · {stamp}</span>
     </p>
   );
 }
