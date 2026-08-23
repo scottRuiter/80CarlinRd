@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { AreaMap, directionsLink, placeMiles } from "@/components/AreaMap";
 import { Reveal } from "@/components/Reveal";
 import {
@@ -28,13 +28,12 @@ export function ExploreArea() {
     rail.current?.scrollBy({ left: direction * 340, behavior: "smooth" });
   }
 
-  function choose(name: string) {
+  const choose = useCallback((name: string) => {
     setSelected(name);
-    // On phones the map sits below the rail, so bring it into view on selection.
     if (window.innerWidth < 1024) {
       mapPanel.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-  }
+  }, []);
 
   return (
     <section id="explore" className="scroll-mt-24 px-5 py-24 sm:px-8">
