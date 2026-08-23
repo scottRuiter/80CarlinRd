@@ -29,6 +29,7 @@ const ticker = [
   "Updated electrical panel",
   "Natural gas",
   "Updated sunroom",
+  "Attached 1-stall garage",
   "Finished lower level",
   "0.39-acre lot",
   "Susquehanna Valley schools",
@@ -48,7 +49,7 @@ const pillars = [
   {
     n: "03",
     title: "A house, not a unit",
-    body: "Single-family on roughly 0.39 acres, with a yard, a shed, and neighbors instead of shared walls.",
+    body: "Single-family on roughly 0.39 acres, with an attached 1-stall garage, a yard, a shed, and neighbors instead of shared walls.",
   },
 ];
 
@@ -58,6 +59,7 @@ const spaces = [
   { img: "/images/sunroom.jpg", title: "Sunroom", body: "New flooring, wraparound windows, and a bright extra room that looks onto the yard." },
   { img: "/images/tile.jpg", title: "Lower level", body: "Finished flexible space with a bar counter — den, office, or playroom." },
   { img: "/images/backyard.jpg", title: "Yard", body: "Deep lawn, mature trees, and a storage shed on about 0.39 acres." },
+  { img: "/images/front-lawn.jpg", title: "Garage", body: "Attached 1-stall garage — off the street and out of the weather." },
 ];
 
 export default function Home() {
@@ -127,7 +129,7 @@ export default function Home() {
             </div>
 
             <p className="mt-6 max-w-xl text-sm text-muted sm:text-base">
-              Nest zone comfort · PIN side-door entry · Wi-Fi 6 + wired Ethernet
+              Attached 1-stall garage · Nest zone comfort · PIN side-door entry · Wi-Fi 6 + Ethernet
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -170,8 +172,9 @@ export default function Home() {
                   {property.shortDescription}
                 </p>
                 <p className="mt-4 max-w-xl text-muted">
-                  Conklin, Broome County, inside the {property.schoolDistrict} — with a
-                  yard, a finished lower level, and a kitchen already brought forward.
+                  Conklin, Broome County, inside the {property.schoolDistrict} — with an
+                  attached 1-stall garage, a yard, a finished lower level, and a kitchen
+                  already brought forward.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <a href={ctas.gallery} className="btn btn-outline">

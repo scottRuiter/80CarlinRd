@@ -84,6 +84,7 @@ const listingJsonLd = {
     { "@type": "LocationFeatureSpecification", name: "Wi-Fi 6" },
     { "@type": "LocationFeatureSpecification", name: "High-speed wired Ethernet" },
     { "@type": "LocationFeatureSpecification", name: "Natural gas" },
+    { "@type": "LocationFeatureSpecification", name: "Attached 1-stall garage" },
     { "@type": "LocationFeatureSpecification", name: "Yard" },
   ],
   offers: {

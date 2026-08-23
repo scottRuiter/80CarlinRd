@@ -58,15 +58,15 @@ export const property = {
   siteUrl: "https://scottruiter.github.io/80CarlinRd",
   pageTitle: "80 Carlin Rd Conklin NY | 3 Bedroom Home for Rent",
   metaDescription:
-    "Explore 80 Carlin Rd in Conklin, NY — a 3-bedroom, 1.5-bath home with 1,808 sq. ft., Nest thermostats and zone sensors, Wi-Fi 6, wired Ethernet, PIN side-door entry, and a 26 kW Generac standby generator.",
+    "Explore 80 Carlin Rd in Conklin, NY — a 3-bedroom, 1.5-bath home with 1,808 sq. ft., an attached 1-stall garage, Nest thermostats and zone sensors, Wi-Fi 6, wired Ethernet, PIN side-door entry, and a 26 kW Generac standby generator.",
   socialTitle: "80 Carlin Rd | Conklin, NY",
   socialDescription:
-    "3-bedroom Conklin rental with Nest zone comfort, Wi-Fi 6 and wired Ethernet, electronic PIN side-door entry, and a 26 kW Generac whole-home standby generator.",
+    "3-bedroom Conklin rental with an attached 1-stall garage, Nest zone comfort, Wi-Fi 6 and wired Ethernet, electronic PIN side-door entry, and a 26 kW Generac whole-home standby generator.",
   headline: "80 Carlin Rd — Comfortable 3-Bedroom Home with Whole-Home Backup Power",
   heroSubheadline:
     "3 Bedrooms • 1.5 Bathrooms • 1,808 Sq. Ft. • Susquehanna Valley Central School District",
   shortDescription:
-    "Spacious 3-bedroom, 1.5-bath single-family home offering approximately 1,808 sq. ft. of living space in Conklin, NY. The property features Nest thermostats with zone sensors on each floor, electronic PIN side-door entry, Wi-Fi 6 and high-speed wired Ethernet, an updated sunroom, upgraded electrical service, and a recently installed 26 kW natural-gas Generac standby generator with automatic transfer switch.",
+    "Spacious 3-bedroom, 1.5-bath single-family home offering approximately 1,808 sq. ft. of living space in Conklin, NY. The property includes an attached 1-stall garage, Nest thermostats with zone sensors on each floor, electronic PIN side-door entry, Wi-Fi 6 and high-speed wired Ethernet, an updated sunroom, upgraded electrical service, and a recently installed 26 kW natural-gas Generac standby generator with automatic transfer switch.",
 };
 
 /** Fill these in later. Empty values are not shown on the site. */
@@ -85,8 +85,8 @@ export const pending = {
   refrigeratorIncluded: "",
   dishwasher: "",
   microwave: "",
-  garage: "",
-  parkingSpaces: "",
+  garage: "Attached 1-stall garage",
+  parkingSpaces: "1 garage stall",
   basementDetails: "",
   lawnCare: "",
   snowRemoval: "",
@@ -115,6 +115,7 @@ export const highlights = [
   { label: "Living area", value: "1,808 Sq. Ft." },
   { label: "Home type", value: "Single-family" },
   { label: "Lot", value: "Approx. 0.39 acres" },
+  { label: "Garage", value: "Attached 1-stall" },
   { label: "Schools", value: "Susquehanna Valley" },
   { label: "Backup power", value: "26 kW Generac" },
   { label: "Sunroom", value: "Updated sunroom" },
@@ -128,6 +129,7 @@ export const highlightList = [
   "1 full bathroom + 1 half bathroom",
   "Approximately 1,808 sq. ft.",
   "Single-family home",
+  "Attached 1-stall garage",
   "Approximately 0.39-acre property",
   "Susquehanna Valley Central School District",
   "26 kW Generac standby generator",
@@ -172,6 +174,10 @@ export const featureCards = [
   {
     title: "Yard / outdoor space",
     body: "About 0.39 acres in a residential Conklin setting, with lawn, trees, and room to be outside.",
+  },
+  {
+    title: "Attached 1-stall garage",
+    body: "An attached one-stall garage for a car, bikes, or winter storage — off the street and out of the weather.",
   },
   {
     title: "Nest thermostats + zone sensors",
@@ -467,7 +473,11 @@ export const faqs = [
   },
   {
     q: "How large is the home?",
-    a: "Three bedrooms, 1 full bath and 1 half bath, and about 1,808 square feet on roughly 0.39 acres.",
+    a: "Three bedrooms, 1 full bath and 1 half bath, and about 1,808 square feet on roughly 0.39 acres, plus an attached 1-stall garage.",
+  },
+  {
+    q: "Is there a garage?",
+    a: "Yes. The house has an attached 1-stall garage.",
   },
   {
     q: "Is there backup power?",
