@@ -9,7 +9,7 @@ export type DriveRoute = DriveInfo & {
   path: [number, number][];
 };
 
-const TABLE_KEY = "80carlin-drive-table-v1";
+const TABLE_KEY = "80carlin-drive-table-v2";
 
 function formatMiles(miles: number) {
   return miles < 10 ? `${miles.toFixed(1)} miles` : `${Math.round(miles)} miles`;

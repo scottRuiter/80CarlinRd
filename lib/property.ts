@@ -272,6 +272,8 @@ export const qualifications = [
 ];
 
 export type AreaCategory =
+  | "parks"
+  | "waterfalls"
   | "outdoors"
   | "sports"
   | "entertainment"
@@ -282,6 +284,8 @@ export type AreaCategory =
 
 export const areaCategories: { id: "all" | AreaCategory; label: string; icon: string }[] = [
   { id: "all", label: "All", icon: "◆" },
+  { id: "parks", label: "Parks", icon: "🌳" },
+  { id: "waterfalls", label: "Waterfalls", icon: "💧" },
   { id: "outdoors", label: "Outdoors", icon: "🏞" },
   { id: "sports", label: "Sports", icon: "⚾" },
   { id: "entertainment", label: "Entertainment", icon: "🎭" },
@@ -303,12 +307,129 @@ export const areaPlaces: {
 }[] = [
   {
     name: "Otsiningo Park",
-    category: "outdoors",
+    category: "parks",
     blurb:
-      "One of Greater Binghamton's major outdoor recreation areas, with walking and biking paths, open green space, fishing, athletic fields, picnic areas, and seasonal activities.",
+      "One of Greater Binghamton's major parks, with walking and biking paths, open green space, fishing, athletic fields, picnic areas, and seasonal events.",
     query: "Otsiningo Park, Binghamton, NY",
     lat: 42.1201267,
     lng: -75.9048827,
+  },
+  {
+    name: "Recreation Park",
+    category: "parks",
+    blurb:
+      "Binghamton's historic West Side park — the 1925 carousel, playgrounds, the old swimming pools, and summer concerts a short drive from Conklin.",
+    query: "Recreation Park, Beethoven Street, Binghamton, NY",
+    lat: 42.0993044,
+    lng: -75.9337108,
+  },
+  {
+    name: "Cheri Lindsey Park",
+    category: "parks",
+    blurb:
+      "A North Side neighborhood park along the Chenango River with fields, a playground, and river access — close to Otsiningo.",
+    query: "Cheri Lindsey Park, Binghamton, NY",
+    lat: 42.1129937,
+    lng: -75.9056368,
+  },
+  {
+    name: "Aqua-Terra Wilderness Area",
+    category: "parks",
+    blurb:
+      "466 acres of Broome County trails and a fishing pond in the Town of Binghamton — a quiet hike without leaving the county.",
+    query: "Aqua-Terra Wilderness Area, Binghamton, NY",
+    lat: 42.0316445,
+    lng: -75.9386081,
+  },
+  {
+    name: "Grippen Park",
+    category: "parks",
+    blurb:
+      "Endicott riverfront park with a boat launch, playground, and open lawn along the Susquehanna.",
+    query: "Grippen Park, Endicott, NY",
+    lat: 42.0858656,
+    lng: -76.0782459,
+  },
+  {
+    name: "Chenango Valley State Park",
+    category: "parks",
+    blurb:
+      "A New York State park north of Binghamton with a lake, camping, swimming, golf, and wooded trails — an easy day out from Conklin.",
+    query: "Chenango Valley State Park, Chenango Forks, NY",
+    lat: 42.2169359,
+    lng: -75.8394833,
+  },
+  {
+    name: "Nathaniel Cole Park",
+    category: "parks",
+    blurb:
+      "A Broome County park in Colesville with a lake, beach, picnic shelters, and hiking — east of Conklin toward Harpursville.",
+    query: "Nathaniel Cole Park, Harpursville, NY",
+    lat: 42.1418021,
+    lng: -75.7068563,
+  },
+  {
+    name: "Greenwood Park",
+    category: "parks",
+    blurb:
+      "Broome County park in Nanticoke with a lake, camping, and trails — a quieter weekend park west of the valley.",
+    query: "Greenwood Park, Lisle, NY",
+    lat: 42.2852125,
+    lng: -76.0905722,
+  },
+  {
+    name: "Finch Hollow Nature Center",
+    category: "parks",
+    blurb:
+      "A small Broome County nature center and trail system in Johnson City — easy outdoor time for kids.",
+    query: "Finch Hollow Nature Center, Johnson City, NY",
+    lat: 42.1442524,
+    lng: -75.9793121,
+  },
+  {
+    name: "Cutler Botanic Garden",
+    category: "parks",
+    blurb:
+      "Cornell Cooperative Extension's demonstration gardens on Front Street — a quiet walk through seasonal plantings.",
+    query: "Cutler Botanic Garden, Binghamton, NY",
+    lat: 42.1284519,
+    lng: -75.9057694,
+  },
+  {
+    name: "Wolfe Park Waterfall",
+    category: "waterfalls",
+    blurb:
+      "A 10–12 ft cascade on the blue trail at Wolfe Park in the Town of Chenango — the closest photogenic waterfall to the house.",
+    query: "Wolfe Park, Dorman Road, Chenango, NY",
+    lat: 42.16183,
+    lng: -75.91206,
+  },
+  {
+    name: "IBM Glen Waterfall",
+    category: "waterfalls",
+    blurb:
+      "A wooded glen off Robinson Hill Road in Endicott with stone bridges, old-growth trees, and a waterfall on Gray's Creek.",
+    query: "IBM Glen, 1250 Robinson Hill Road, Endicott, NY",
+    lat: 42.12955,
+    lng: -75.99865,
+  },
+  {
+    name: "Buttermilk Falls State Park",
+    category: "waterfalls",
+    blurb:
+      "A classic Finger Lakes day trip to Ithaca — a wide cascade, gorge trails, and a swimming hole at the base of the falls.",
+    query: "Buttermilk Falls State Park, Ithaca, NY",
+    lat: 42.4063318,
+    lng: -76.5119238,
+  },
+  {
+    name: "Fillmore Glen State Park",
+    category: "waterfalls",
+    blurb:
+      "A gorge park in Moravia with multiple waterfalls and the Cowsheds — a longer but worthwhile Southern Tier / Finger Lakes drive.",
+    query: "Fillmore Glen State Park, Moravia, NY",
+    lat: 42.6904485,
+    lng: -76.386576,
   },
   {
     name: "Conklin Players Club",
@@ -327,6 +448,33 @@ export const areaPlaces: {
     query: "Ross Park Zoo, Binghamton, NY",
     lat: 42.0745764,
     lng: -75.9081642,
+  },
+  {
+    name: "Two Rivers Greenway",
+    category: "outdoors",
+    blurb:
+      "The walking and biking path along the Chenango and Susquehanna through downtown Binghamton — a weeknight walk or ride.",
+    query: "Two Rivers Greenway, Binghamton, NY",
+    lat: 42.0980036,
+    lng: -75.9154975,
+  },
+  {
+    name: "En-Joie Golf Course",
+    category: "outdoors",
+    blurb:
+      "A historic public course in Endicott, former home of the B.C. Open — another 18-hole option besides Conklin Players Club.",
+    query: "En-Joie Golf Course, Endicott, NY",
+    lat: 42.0879915,
+    lng: -76.0835397,
+  },
+  {
+    name: "Hawkins Pond",
+    category: "outdoors",
+    blurb:
+      "A Broome County natural area in Windsor with a pond, woods, and quiet trails — fishing and a walk in the hills east of Conklin.",
+    query: "Hawkins Pond, Windsor, NY",
+    lat: 42.0047603,
+    lng: -75.6509572,
   },
   {
     name: "Binghamton Rumble Ponies",
@@ -374,6 +522,15 @@ export const areaPlaces: {
     lng: -75.9684111,
   },
   {
+    name: "Cider Mill Playhouse",
+    category: "entertainment",
+    blurb:
+      "A long-running Endicott theater for plays and musicals — live local stage a short drive west.",
+    query: "Cider Mill Playhouse, Endicott, NY",
+    lat: 42.0983154,
+    lng: -76.0665489,
+  },
+  {
     name: "Roberson Museum & Science Center",
     category: "culture",
     blurb:
@@ -399,6 +556,15 @@ export const areaPlaces: {
     query: "Kopernik Observatory & Science Center, Vestal, NY",
     lat: 42.0021034,
     lng: -76.033339,
+  },
+  {
+    name: "Bundy Museum of History & Art",
+    category: "culture",
+    blurb:
+      "The 1892 Bundy house on the West Side — local history, art exhibits, and the birthplace story of IBM's roots in Binghamton.",
+    query: "Bundy Museum, Binghamton, NY",
+    lat: 42.1016775,
+    lng: -75.9278829,
   },
   {
     name: "Vestal Parkway",
@@ -435,6 +601,15 @@ export const areaPlaces: {
     lng: -75.9125,
   },
   {
+    name: "Oakdale Commons",
+    category: "shopping",
+    blurb:
+      "The Johnson City mall and surrounding stores — another everyday shopping option besides Vestal Parkway.",
+    query: "Oakdale Mall, Johnson City, NY",
+    lat: 42.1289232,
+    lng: -75.9742083,
+  },
+  {
     name: "Binghamton University",
     category: "university",
     blurb:
@@ -442,6 +617,15 @@ export const areaPlaces: {
     query: "4400 Vestal Parkway East, Vestal, NY",
     lat: 42.0953444,
     lng: -75.9672052,
+  },
+  {
+    name: "SUNY Broome",
+    category: "university",
+    blurb:
+      "Broome Community College on Upper Front Street — two-year programs, workforce training, and a second campus in the valley.",
+    query: "SUNY Broome, Binghamton, NY",
+    lat: 42.1351797,
+    lng: -75.9123768,
   },
   {
     name: "Susquehanna Valley Central School District",
@@ -499,6 +683,7 @@ export const outdoorLiving = [
   "Picnic areas",
   "Seasonal recreation",
   "Nearby state and county parks",
+  "Waterfalls and gorge walks",
 ];
 
 export const locationAccess = [
@@ -603,7 +788,7 @@ export const faqs = [
   },
   {
     q: "What is nearby?",
-    a: "A residential Conklin setting with easy access to Greater Binghamton — Otsiningo Park, Ross Park Zoo, Conklin Players Club, downtown sports and theater, Vestal Parkway shopping, and Binghamton University.",
+    a: "A residential Conklin setting with easy access to Greater Binghamton — parks, nearby waterfalls, Ross Park Zoo, Conklin Players Club, downtown sports and theater, Vestal Parkway shopping, and Binghamton University.",
   },
   {
     q: "Who pays utilities?",
