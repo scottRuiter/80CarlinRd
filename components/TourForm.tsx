@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { property } from "@/lib/property";
 
 // Split so the address is not sitting in the HTML as one scrapable string.
@@ -11,14 +11,49 @@ const blank = {
   name: "",
   email: "",
   phone: "",
-  moveIn: "",
-  occupants: "",
+  bestTime: "",
+  currentCity: "",
+  adults: "",
+  children: "",
   pets: "",
+  vehicles: "",
+  income: "",
+  credit: "",
+  insurance: "",
+  employer: "",
+  moveIn: "",
+  showing: "",
   message: "",
   company: "",
 };
 
 type Status = "idle" | "sending" | "sent" | "error";
+
+function Field({
+  label,
+  required,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <label className="grid gap-2 text-sm">
+      <span className="font-medium text-fog">
+        {label}
+        {required ? " *" : ""}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+function Heading({ children }: { children: ReactNode }) {
+  return (
+    <p className="mt-2 text-xs tracking-[0.18em] text-amber uppercase">{children}</p>
+  );
+}
 
 export function TourForm() {
   const [values, setValues] = useState(blank);
@@ -26,7 +61,7 @@ export function TourForm() {
 
   const update =
     (key: keyof typeof blank) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       setValues((current) => ({ ...current, [key]: event.target.value }));
       if (status === "error") setStatus("idle");
     };
@@ -45,13 +80,23 @@ export function TourForm() {
           _subject: `Showing request — 80 Carlin Rd — ${values.name}`,
           _template: "table",
           _captcha: "false",
+          _replyto: values.email,
           Name: values.name,
           Email: values.email,
-          Phone: values.phone || "—",
-          "Desired move-in": values.moveIn || "—",
-          Occupants: values.occupants || "—",
-          Pets: values.pets || "—",
-          Message: values.message || "—",
+          Phone: values.phone,
+          "Best time to reach": values.bestTime || "—",
+          "Current city": values.currentCity || "—",
+          Adults: values.adults,
+          Children: values.children || "0",
+          Pets: values.pets || "None",
+          Vehicles: values.vehicles || "—",
+          "Monthly household income": values.income,
+          "Credit score": values.credit,
+          "Renters insurance": values.insurance,
+          "Employer / occupation": values.employer || "—",
+          "Desired move-in": values.moveIn,
+          "Preferred showing time": values.showing,
+          Notes: values.message || "—",
           Property: "80 Carlin Rd, Conklin, NY 13748",
         }),
       });
@@ -102,8 +147,8 @@ export function TourForm() {
       <div>
         <h3 className="display text-3xl">Request a showing</h3>
         <p className="mt-2 text-sm text-muted">
-          Fill this out and hit save. It goes straight to {property.contactName}.
-          Expectation: 3× rent ($7,500/month), 650+ credit, and renters insurance.
+          Send this to {property.contactName}. Expectation: 3× rent ($7,500/month),
+          650+ credit, and renters insurance.
         </p>
       </div>
 
@@ -118,84 +163,190 @@ export function TourForm() {
         className="hidden"
       />
 
+      <Heading>Contact</Heading>
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm">
-          <span className="font-medium text-fog">Name *</span>
-          <input required name="name" value={values.name} onChange={update("name")} className="field" />
-        </label>
-        <label className="grid gap-2 text-sm">
-          <span className="font-medium text-fog">Email *</span>
+        <Field label="Full name" required>
+          <input
+            required
+            autoComplete="name"
+            name="name"
+            value={values.name}
+            onChange={update("name")}
+            className="field"
+          />
+        </Field>
+        <Field label="Email" required>
           <input
             required
             type="email"
+            autoComplete="email"
             name="email"
             value={values.email}
             onChange={update("email")}
             className="field"
           />
-        </label>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm">
-          <span className="font-medium text-fog">Phone</span>
+        </Field>
+        <Field label="Phone" required>
           <input
+            required
             type="tel"
+            autoComplete="tel"
             name="phone"
+            placeholder="(607) 555-0100"
             value={values.phone}
             onChange={update("phone")}
             className="field"
           />
-        </label>
-        <label className="grid gap-2 text-sm">
-          <span className="font-medium text-fog">Desired move-in</span>
+        </Field>
+        <Field label="Best time to reach you">
           <input
+            name="bestTime"
+            placeholder="Weeknights after 6, lunch…"
+            value={values.bestTime}
+            onChange={update("bestTime")}
+            className="field"
+          />
+        </Field>
+        <Field label="Current city">
+          <input
+            name="currentCity"
+            placeholder="Endicott, relocating from…"
+            value={values.currentCity}
+            onChange={update("currentCity")}
+            className="field"
+          />
+        </Field>
+        <Field label="Employer / occupation">
+          <input
+            name="employer"
+            placeholder="Company or role"
+            value={values.employer}
+            onChange={update("employer")}
+            className="field"
+          />
+        </Field>
+      </div>
+
+      <Heading>Household</Heading>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Adults" required>
+          <input
+            required
+            inputMode="numeric"
+            name="adults"
+            placeholder="How many"
+            value={values.adults}
+            onChange={update("adults")}
+            className="field"
+          />
+        </Field>
+        <Field label="Children">
+          <input
+            name="children"
+            placeholder="Ages, if any"
+            value={values.children}
+            onChange={update("children")}
+            className="field"
+          />
+        </Field>
+        <Field label="Pets">
+          <input
+            name="pets"
+            placeholder="Type, size, and count"
+            value={values.pets}
+            onChange={update("pets")}
+            className="field"
+          />
+        </Field>
+        <Field label="Vehicles">
+          <input
+            name="vehicles"
+            placeholder="How many, plus any oversized"
+            value={values.vehicles}
+            onChange={update("vehicles")}
+            className="field"
+          />
+        </Field>
+      </div>
+
+      <Heading>Qualifications</Heading>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label="Monthly household income" required>
+          <input
+            required
+            name="income"
+            placeholder="$7,500 or more"
+            value={values.income}
+            onChange={update("income")}
+            className="field"
+          />
+        </Field>
+        <Field label="Credit score" required>
+          <select
+            required
+            name="credit"
+            value={values.credit}
+            onChange={update("credit")}
+            className="field"
+          >
+            <option value="">Select a range</option>
+            <option value="750+">750 or higher</option>
+            <option value="700–749">700–749</option>
+            <option value="650–699">650–699</option>
+            <option value="Below 650">Below 650</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </Field>
+        <Field label="Renters insurance" required>
+          <select
+            required
+            name="insurance"
+            value={values.insurance}
+            onChange={update("insurance")}
+            className="field"
+          >
+            <option value="">Select one</option>
+            <option value="Already have a policy">Already have a policy</option>
+            <option value="Will obtain before move-in">Will obtain before move-in</option>
+            <option value="Need more information">Need more information</option>
+          </select>
+        </Field>
+        <Field label="Desired move-in" required>
+          <input
+            required
             name="moveIn"
             placeholder="Month or date"
             value={values.moveIn}
             onChange={update("moveIn")}
             className="field"
           />
-        </label>
+        </Field>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm">
-          <span className="font-medium text-fog">Occupants</span>
-          <input
-            name="occupants"
-            placeholder="How many people"
-            value={values.occupants}
-            onChange={update("occupants")}
-            className="field"
-          />
-        </label>
-        <label className="grid gap-2 text-sm">
-          <span className="font-medium text-fog">Pets</span>
-          <input
-            name="pets"
-            placeholder="Type and size, if any"
-            value={values.pets}
-            onChange={update("pets")}
-            className="field"
-          />
-        </label>
-      </div>
-
-      <label className="grid gap-2 text-sm">
-        <span className="font-medium text-fog">When can you walk through?</span>
+      <Heading>Showing</Heading>
+      <Field label="When can you walk through?" required>
+        <input
+          required
+          name="showing"
+          placeholder="Thursday after 5, Saturday morning…"
+          value={values.showing}
+          onChange={update("showing")}
+          className="field"
+        />
+      </Field>
+      <Field label="Anything else we should know?">
         <textarea
           name="message"
           rows={4}
-          placeholder="Weeknights after 5, Saturday morning…"
+          placeholder="Questions about the house, pets, schools…"
           value={values.message}
           onChange={update("message")}
           className="field py-3"
         />
-      </label>
+      </Field>
 
       <button type="submit" className="btn btn-amber w-full" disabled={status === "sending"}>
-        {status === "sending" ? "Saving…" : "Save & Send Request"}
+        {status === "sending" ? "Sending…" : "Send showing request"}
       </button>
 
       {status === "error" ? (
